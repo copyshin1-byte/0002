@@ -497,4 +497,192 @@ height:250px;
 
 }
 
+  /* ===== ADVANCED GEAR BACKGROUND ===== */
+/* 回転速度ランダム・ぼかし・奥行きパララックス */
+
+body{
+position:relative;
+overflow-x:hidden;
+}
+
+/* SVG歯車（2色） */
+:root{
+
+--gearA:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cg fill='none' stroke='%23ff00ff' stroke-width='8' stroke-opacity='.25'%3E%3Ccircle cx='100' cy='100' r='45'/%3E%3Ccircle cx='100' cy='100' r='18'/%3E%3C/g%3E%3Cg fill='%23ff00ff' fill-opacity='.15'%3E%3Crect x='92' y='5' width='16' height='28'/%3E%3Crect x='92' y='167' width='16' height='28'/%3E%3Crect x='167' y='92' width='28' height='16'/%3E%3Crect x='5' y='92' width='28' height='16'/%3E%3C/g%3E%3C/svg%3E");
+
+--gearB:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cg fill='none' stroke='%238a2bff' stroke-width='8' stroke-opacity='.25'%3E%3Ccircle cx='100' cy='100' r='45'/%3E%3Ccircle cx='100' cy='100' r='18'/%3E%3C/g%3E%3Cg fill='%238a2bff' fill-opacity='.15'%3E%3Crect x='92' y='5' width='16' height='28'/%3E%3Crect x='92' y='167' width='16' height='28'/%3E%3Crect x='167' y='92' width='28' height='16'/%3E%3Crect x='5' y='92' width='28' height='16'/%3E%3C/g%3E%3C/svg%3E");
+
+}
+
+
+/* ===== レイヤー1（奥：大きくて遅い） ===== */
+
+body::before{
+
+content:"";
+
+position:fixed;
+
+top:-40%;
+left:-40%;
+
+width:180%;
+height:180%;
+
+pointer-events:none;
+
+z-index:-2;
+
+opacity:.6;
+
+filter:blur(2px);
+
+background-image:
+
+var(--gearA),
+var(--gearB),
+var(--gearA),
+var(--gearB);
+
+background-repeat:no-repeat;
+
+background-size:
+
+420px 420px,
+360px 360px,
+500px 500px,
+380px 380px;
+
+background-position:
+
+15% 20%,
+55% 25%,
+30% 70%,
+75% 75%;
+
+animation:gearSlow 70s linear infinite;
+
+transform-origin:center;
+
+}
+
+
+/* ===== レイヤー2（中間：標準） ===== */
+
+body::after{
+
+content:"";
+
+position:fixed;
+
+top:-30%;
+left:-30%;
+
+width:160%;
+height:160%;
+
+pointer-events:none;
+
+z-index:-1;
+
+opacity:.8;
+
+filter:blur(1px);
+
+background-image:
+
+var(--gearB),
+var(--gearA),
+var(--gearB),
+var(--gearA),
+var(--gearB);
+
+background-repeat:no-repeat;
+
+background-size:
+
+220px 220px,
+180px 180px,
+260px 260px,
+200px 200px,
+240px 240px;
+
+background-position:
+
+20% 30%,
+45% 40%,
+70% 35%,
+35% 80%,
+80% 65%;
+
+animation:gearMedium 38s linear infinite reverse;
+
+transform-origin:center;
+
+}
+
+
+/* ===== 追加レイヤー（手前：小さく速い） ===== */
+
+body::after{
+background-image:
+
+var(--gearB),
+var(--gearA),
+var(--gearB),
+var(--gearA),
+var(--gearB),
+var(--gearA);
+
+background-size:
+
+220px 220px,
+180px 180px,
+260px 260px,
+200px 200px,
+240px 240px,
+140px 140px;
+
+background-position:
+
+20% 30%,
+45% 40%,
+70% 35%,
+35% 80%,
+80% 65%,
+60% 15%;
+
+}
+
+
+/* ===== 回転アニメーション ===== */
+
+@keyframes gearSlow{
+0%{transform:rotate(0deg);}
+100%{transform:rotate(360deg);}
+}
+
+@keyframes gearMedium{
+0%{transform:rotate(0deg);}
+100%{transform:rotate(-360deg);}
+}
+
+
+/* ===== パララックス風スクロール ===== */
+
+body{
+background-attachment:fixed;
+}
+
+
+/* ===== モーション軽減対応 ===== */
+
+@media (prefers-reduced-motion: reduce){
+
+body::before,
+body::after{
+animation:none;
+}
+
+}
 }
