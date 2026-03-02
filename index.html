@@ -11,359 +11,483 @@
 
 <style>
 
-*{box-sizing:border-box;margin:0;padding:0;}
-
-:root{
---bg0:#000814;
---bg1:#020617;
---neon1:#00eaff;
---neon2:#00ff9d;
---txt:#eafaff;
---panel:rgba(0,0,0,.72);
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
 }
 
 body{
-margin:0;
-font-family:"Orbitron","Noto Sans JP",system-ui,sans-serif;
-color:var(--txt);
+
+font-family:"Noto Sans JP",sans-serif;
+
+color:#eafaff;
+
 background:
-radial-gradient(1200px 800px at 15% 20%, rgba(0,234,255,.16), transparent 55%),
-radial-gradient(900px 700px at 85% 30%, rgba(0,255,157,.12), transparent 60%),
-linear-gradient(120deg,var(--bg1),var(--bg0),#001020,var(--bg1));
-background-size: 100% 100%, 100% 100%, 400% 400%;
-animation:bgmove 26s ease infinite;
+linear-gradient(
+120deg,
+#020617,
+#000814,
+#001020,
+#020617
+);
+
+background-size:400% 400%;
+
+animation:bgmove 25s ease infinite;
+
 min-height:100vh;
+
 }
 
 @keyframes bgmove{
-0%{background-position:0% 0%, 0% 0%, 0% 50%;}
-50%{background-position:0% 0%, 0% 0%, 100% 50%;}
-100%{background-position:0% 0%, 0% 0%, 0% 50%;}
-}
 
-/* ===== Header ===== */
-.header{
-position:fixed;
-top:0;left:0;right:0;
-height:66px;
-display:flex;
-align-items:center;
-justify-content:center;
-background:linear-gradient(90deg,#000,rgba(2,6,23,.92),#000);
-border-bottom:1px solid rgba(0,234,255,.35);
-backdrop-filter: blur(10px);
-box-shadow:0 0 40px rgba(0,234,255,.18);
-z-index:100;
-}
-
-.logoText{
-font-size:22px;
-letter-spacing:4px;
-font-weight:900;
-background:linear-gradient(90deg,var(--neon1),var(--neon2));
--webkit-background-clip:text;
-color:transparent;
-text-shadow:0 0 18px rgba(0,234,255,.55);
-}
-
-/* ===== Layout ===== */
-.container{
-max-width:1500px;
-margin:86px auto 0;
-padding:14px;
-display:flex;
-gap:18px;
-}
-
-/* ===== Panels ===== */
-.panel{
-position:relative;
-background:linear-gradient(180deg, rgba(10,20,40,.72), rgba(0,0,0,.78));
-border-radius:18px;
-padding:16px;
-overflow:hidden;
-box-shadow:
-0 18px 45px rgba(0,0,0,.55),
-inset 0 0 0 1px rgba(0,234,255,.18);
-}
-
-.panel::before{
-content:"";
-position:absolute;
-inset:-2px;
-background:linear-gradient(60deg,var(--neon1),var(--neon2),var(--neon1));
-background-size:300% 300%;
-animation:neonBorder 6s linear infinite;
-filter:blur(10px);
-opacity:.9;
-z-index:-1;
-}
-
-@keyframes neonBorder{
 0%{background-position:0% 50%;}
 50%{background-position:100% 50%;}
 100%{background-position:0% 50%;}
+
 }
 
-.categories{width:270px;}
-.products{width:440px;}
-.detail{flex:1;}
 
-/* Headings inside panels */
-.panel h3{
-margin:0 0 12px;
-letter-spacing:2px;
-font-size:14px;
-color:rgba(234,250,255,.92);
-text-shadow:0 0 14px rgba(0,234,255,.18);
-}
 
-/* ===== Category buttons ===== */
-.categoryBtn{
+/* ===== Header ===== */
+
+.header{
+
+position:fixed;
+top:0;
+left:0;
+right:0;
+
+height:65px;
+
 display:flex;
 align-items:center;
-gap:10px;
-padding:12px;
-margin:8px 0;
-cursor:pointer;
-border-radius:12px;
-border:1px solid rgba(0,234,255,.22);
-background:linear-gradient(180deg, rgba(2,6,23,.9), rgba(0,0,0,.85));
-transition:transform .18s, box-shadow .22s, border-color .22s, filter .22s;
-position:relative;
-overflow:hidden;
+justify-content:center;
+
+background:#000;
+
+border-bottom:1px solid #00eaff55;
+
+box-shadow:0 0 40px #00eaff33;
+
+z-index:100;
+
 }
 
-.categoryBtn::after{
-content:"";
-position:absolute;
-top:0;left:-120%;
-width:120%;
-height:100%;
-background:linear-gradient(90deg, transparent, rgba(255,255,255,.09), transparent);
-transform:skewX(-18deg);
-transition:left .7s;
+
+.logoText{
+
+font-size:22px;
+
+font-weight:bold;
+
+background:linear-gradient(90deg,#00eaff,#00ff9d);
+
+-webkit-background-clip:text;
+
+color:transparent;
+
 }
 
-.categoryBtn:hover::after{left:140%;}
 
-.categoryBtn:hover{
-transform:translateX(6px);
-border-color:rgba(0,234,255,.55);
-box-shadow:0 0 22px rgba(0,234,255,.35);
-filter:brightness(1.05);
-}
 
-.categoryBtn:active{
-transform:translateX(4px) scale(.98);
-}
+/* ===== Layout ===== */
 
-.categoryBtn img{
-width:40px;height:40px;
-object-fit:cover;
-border-radius:10px;
-border:1px solid rgba(0,234,255,.28);
-box-shadow:0 0 18px rgba(0,234,255,.10);
-}
+.container{
 
-/* ===== Search ===== */
-#searchBox{
-width:100%;
-padding:12px 12px;
-background:rgba(0,0,0,.78);
-color:var(--neon1);
-border:1px solid rgba(0,234,255,.35);
-border-radius:12px;
-outline:none;
-margin:0 0 12px;
-transition:border-color .2s, box-shadow .2s, filter .2s;
-}
+max-width:1400px;
 
-#searchBox:focus{
-border-color:rgba(0,234,255,.75);
-box-shadow:0 0 16px rgba(0,234,255,.35);
-filter:brightness(1.05);
-}
+margin:80px auto;
 
-/* ===== Product cards: 3D Futuristic Panel ===== */
-.card{
-position:relative;
+padding:15px;
+
 display:flex;
-gap:12px;
-padding:14px;
-margin-bottom:14px;
-cursor:pointer;
+
+gap:20px;
+
+}
+
+
+
+/* ===== Panels ===== */
+
+.panel{
+
+position:relative;
+
+background:rgba(0,0,0,.85);
 
 border-radius:16px;
-border:1px solid transparent;
 
-background:
-linear-gradient(rgba(2,6,23,.92), rgba(0,0,0,.88)) padding-box,
-linear-gradient(60deg,var(--neon1),var(--neon2),var(--neon1)) border-box;
-
-transform:
-perspective(900px)
-rotateX(0deg)
-translateZ(0);
-
-transition:
-transform .22s,
-box-shadow .22s,
-filter .18s;
+padding:16px;
 
 overflow:hidden;
+
 }
+
+
+
+/* ネオン枠 */
+
+.panel::before{
+
+content:"";
+
+position:absolute;
+
+inset:-2px;
+
+background:
+
+linear-gradient(
+60deg,
+#00eaff,
+#00ff9d,
+#00eaff
+);
+
+background-size:300%;
+
+animation:neonMove 6s linear infinite;
+
+filter:blur(8px);
+
+z-index:-1;
+
+}
+
+@keyframes neonMove{
+
+0%{background-position:0%;}
+100%{background-position:300%;}
+
+}
+
+
+
+.categories{width:250px;}
+.products{width:420px;}
+.detail{flex:1;}
+
+
+
+/* ===== Category ===== */
+
+.categoryBtn{
+
+padding:12px;
+
+margin:6px 0;
+
+cursor:pointer;
+
+border-radius:10px;
+
+background:#020617;
+
+border:1px solid #00eaff33;
+
+transition:.2s;
+
+}
+
+.categoryBtn:hover{
+
+background:#001020;
+
+box-shadow:0 0 20px #00eaff55;
+
+}
+
+
+
+/* ===== Search ===== */
+
+#searchBox{
+
+width:100%;
+
+padding:12px;
+
+margin-bottom:12px;
+
+background:#000;
+
+border:1px solid #00eaff55;
+
+color:#00eaff;
+
+border-radius:10px;
+
+}
+
+
+
+/* ===== Steam風カード ===== */
+
+.card{
+
+position:relative;
+
+display:flex;
+
+gap:12px;
+
+padding:14px;
+
+margin-bottom:12px;
+
+cursor:pointer;
+
+border-radius:10px;
+
+background:
+
+linear-gradient(
+180deg,
+#001020,
+#000814
+);
+
+border:1px solid #00eaff33;
+
+transition:.2s;
+
+overflow:hidden;
+
+}
+
+
+
+/* Steam風ホバー */
+
+.card:hover{
+
+background:
+
+linear-gradient(
+180deg,
+#002030,
+#001020
+);
+
+border:1px solid #00eaff;
+
+box-shadow:
+
+0 0 30px #00eaff55;
+
+}
+
+
+
+/* ネオンライン */
 
 .card::before{
+
 content:"";
+
 position:absolute;
-top:0;left:-110%;
-width:110%;
+
+top:0;
+left:-100%;
+
+width:100%;
 height:2px;
-background:linear-gradient(90deg, transparent, rgba(0,234,255,.95), transparent);
-transition:left .6s;
+
+background:
+
+linear-gradient(
+90deg,
+transparent,
+#00eaff,
+transparent
+);
+
+transition:.6s;
+
 }
 
-.card:hover::before{left:110%;}
+.card:hover::before{
+left:100%;
+}
 
-/* Glass reflection */
+
+
+/* ガラス反射 */
+
 .card::after{
+
 content:"";
+
 position:absolute;
-top:-60%;
-left:-60%;
-width:220%;
-height:220%;
-background:linear-gradient(120deg, transparent 42%, rgba(255,255,255,.16) 50%, transparent 58%);
+
+top:-50%;
+left:-50%;
+
+width:200%;
+height:200%;
+
+background:
+
+linear-gradient(
+120deg,
+transparent 40%,
+rgba(255,255,255,.15) 50%,
+transparent 60%
+);
+
 transform:rotate(25deg);
+
 opacity:0;
-transition:opacity .2s, left 1s;
+
+transition:1s;
+
 }
 
 .card:hover::after{
-left:130%;
+
+left:120%;
 opacity:1;
+
 }
 
-.card:hover{
-transform:
-perspective(900px)
-rotateX(7deg)
-translateY(-7px)
-translateZ(22px);
-box-shadow:
-0 22px 45px rgba(0,0,0,.65),
-0 0 42px rgba(0,234,255,.40);
-filter:brightness(1.06);
-}
 
-.card:active{
-transform:scale(.965);
-box-shadow:0 0 60px rgba(0,234,255,.55);
-filter:brightness(1.18);
-}
+
+/* 商品画像 */
 
 .card img{
-width:86px;height:86px;
+
+width:90px;
+height:90px;
+
+border-radius:8px;
+
 object-fit:cover;
-border-radius:12px;
-border:1px solid rgba(0,234,255,.30);
-box-shadow:0 0 20px rgba(0,234,255,.12);
+
+border:1px solid #00eaff44;
+
 }
+
+
+
+/* タイトル */
 
 .title{
+
 font-size:16px;
-font-weight:900;
-letter-spacing:.5px;
-margin:0 0 6px;
-color:rgba(234,250,255,.96);
-text-shadow:0 0 14px rgba(0,234,255,.15);
+font-weight:bold;
+
 }
+
+
+
+/* 説明改行 */
 
 .desc{
+
 white-space:pre-line;
-line-height:1.75;
-font-size:13px;
-color:rgba(234,250,255,.82);
+
+line-height:1.7;
+
+opacity:.9;
+
 }
+
+
 
 /* ===== Detail ===== */
+
 .detail img{
+
 width:100%;
-border-radius:14px;
-margin-bottom:12px;
-border:1px solid rgba(0,234,255,.28);
-box-shadow:0 0 30px rgba(0,234,255,.18);
+
+border-radius:10px;
+
+border:1px solid #00eaff44;
+
+box-shadow:0 0 20px #00eaff33;
+
 }
 
-iframe{
+
+
+.detail iframe{
+
 width:100%;
 height:320px;
-border:none;
-border-radius:14px;
-border:1px solid rgba(0,234,255,.28);
-box-shadow:0 0 24px rgba(0,234,255,.14);
-background:#000;
+
+border-radius:10px;
+
+border:1px solid #00eaff44;
+
 }
 
-/* Detail enter animation */
+
+
+/* 表示アニメ */
+
 .detail{
-animation:detailShow .55s ease;
-}
-@keyframes detailShow{
-0%{opacity:.35;transform:translateY(8px) scale(.985);}
-100%{opacity:1;transform:translateY(0) scale(1);}
+
+animation:fade .4s ease;
+
 }
 
-/* ===== Modal ===== */
-.modal{
-position:fixed;
-top:0;left:0;
-width:100%;
-height:100%;
-background:
-radial-gradient(900px 700px at 20% 15%, rgba(0,234,255,.12), transparent 55%),
-linear-gradient(180deg, rgba(0,0,0,.96), rgba(2,6,23,.96));
-padding:20px;
-overflow:auto;
-display:none;
-z-index:2000;
+@keyframes fade{
+
+0%{opacity:.4;}
+100%{opacity:1;}
+
 }
 
-.modal img{
-border-radius:14px;
-border:1px solid rgba(0,234,255,.28);
-box-shadow:0 0 30px rgba(0,234,255,.18);
+
+
+/* ===== Scrollbar ===== */
+
+::-webkit-scrollbar{
+width:8px;
 }
 
-/* Scrollbar */
-::-webkit-scrollbar{width:8px;}
-::-webkit-scrollbar-thumb{background:rgba(0,234,255,.85);border-radius:10px;}
+::-webkit-scrollbar-thumb{
+
+background:#00eaff;
+border-radius:10px;
+
+}
+
+
 
 /* ===== Mobile ===== */
+
 @media(max-width:700px){
 
 .container{
+
 flex-direction:column;
-margin-top:78px;
-padding:12px;
-gap:14px;
+
+margin-top:70px;
+
 }
 
-.categories,.products{width:100%;}
+.panel{
+width:100%;
+}
 
-.detail{display:none;}
+.categories,
+.products{
+width:100%;
+}
 
-.categoryBtn{margin:0 0 10px;}
+.detail{
+display:none;
+}
 
-.card img{width:96px;height:96px;}
+.card img{
 
-iframe{height:260px;}
+width:100px;
+height:100px;
 
-.modal img{
-max-width:100%;
-max-height:45vh;
-object-fit:contain;
 }
 
 }
