@@ -6,15 +6,17 @@ padding:0;
 
 body{
 
-font-family:system-ui,"Noto Sans JP",sans-serif;
+font-family:-apple-system,BlinkMacSystemFont,
+"Noto Sans JP",sans-serif;
 
-color:#d7dde0;
+color:#ddd;
 
-background:#050607;
+background:#06090d;
 
 min-height:100vh;
 
 }
+
 
 
 /* ヘッダー */
@@ -32,23 +34,26 @@ display:flex;
 align-items:center;
 justify-content:center;
 
-background:#0a0d10;
+background:#000;
 
-border-bottom:2px solid #ff7a00;
+border-bottom:1px solid #ff8800;
 
-box-shadow:
-0 0 25px rgba(255,120,0,.6);
+box-shadow:0 0 10px #ff880055;
 
 z-index:100;
 
 }
 
+
 .logoText{
 
 font-size:22px;
-font-weight:bold;
+
+font-weight:600;
+
 letter-spacing:3px;
-color:#ff9a3c;
+
+color:#ff8800;
 
 }
 
@@ -71,120 +76,123 @@ gap:20px;
 }
 
 
+
 /* パネル */
 
 .panel{
 
-background:#0f1316;
+background:#0a0f14;
 
-border-radius:4px;
+border-radius:10px;
 
-padding:18px;
+padding:15px;
 
-border:1px solid #ff7a00;
+border:1px solid #ff880055;
 
-box-shadow:
-0 0 15px rgba(255,120,0,.2);
+box-shadow:0 0 15px #000 inset;
 
 }
 
 
 
-/* ===== PC比率修正 ===== */
+/* ===== 比率修正 ===== */
 
-/* カテゴリ細く */
+/* カテゴリ細め */
 
 .categories{
 
 width:200px;
-
-overflow-x:auto;
-
-white-space:nowrap;
+min-width:200px;
+max-width:200px;
 
 }
 
 
-/* 商品広く */
+
+/* 商品一覧大きめ */
 
 .products{
 
 flex:1;
 
-min-width:400px;
+min-width:450px;
 
 }
 
 
-/* 説明適正 */
+
+/* 説明中くらい */
 
 .detail{
 
 width:350px;
-
-border-left:2px solid #ff7a00;
-
-padding-left:20px;
+min-width:350px;
 
 }
 
 
-/* ===== 横スクロールカテゴリ ===== */
 
-#categoryList{
+/* カテゴリ横スクロール */
+
+.categoryScroll{
 
 display:flex;
 
-gap:8px;
+gap:10px;
 
-flex-wrap:wrap;
+overflow-x:auto;
+
+padding-bottom:10px;
 
 }
+
 
 
 /* カテゴリ */
 
 .categoryBtn{
 
-padding:10px 12px;
+padding:10px 14px;
 
 cursor:pointer;
 
-border-radius:3px;
+border-radius:6px;
 
-background:#141a1f;
+background:#0f1620;
 
-border:1px solid #ff7a00;
+border:1px solid #ff880044;
 
 display:flex;
+
 align-items:center;
-gap:8px;
 
-transition:.2s;
+gap:10px;
 
-font-size:13px;
+white-space:nowrap;
 
 }
 
 
 .categoryBtn:hover{
 
-box-shadow:
-0 0 12px rgba(255,120,0,.8);
+border:1px solid #ff8800;
 
-background:#1c2328;
+box-shadow:0 0 10px #ff880055;
 
 }
 
+
+
+/* カテゴリアイコン */
 
 .categoryBtn img{
 
 width:28px;
 height:28px;
 
-object-fit:cover;
+border-radius:6px;
 
-border:1px solid #ff7a00;
+object-fit:cover;
 
 }
 
@@ -200,11 +208,13 @@ padding:10px;
 
 margin-bottom:10px;
 
-background:#0b0f12;
+background:#000;
 
-border:1px solid #ff7a00;
+border:1px solid #ff880055;
 
-color:#ffb870;
+color:#ff8800;
+
+border-radius:6px;
 
 }
 
@@ -224,40 +234,20 @@ margin-bottom:10px;
 
 cursor:pointer;
 
-background:#141a1f;
+border-radius:6px;
 
-border:1px solid #ff7a00;
+background:#0b1218;
 
-position:relative;
-
-}
-
-
-/* 左HUDライン */
-
-.card::before{
-
-content:"";
-
-position:absolute;
-
-left:0;
-top:0;
-
-width:5px;
-height:100%;
-
-background:#ff7a00;
+border:1px solid #ff880033;
 
 }
 
 
 .card:hover{
 
-box-shadow:
-0 0 20px rgba(255,120,0,.8);
+border:1px solid #ff8800;
 
-background:#1c2328;
+box-shadow:0 0 10px #ff880055;
 
 }
 
@@ -268,18 +258,19 @@ background:#1c2328;
 width:80px;
 height:80px;
 
-object-fit:cover;
+border-radius:6px;
 
-border:1px solid #ff7a00;
+object-fit:cover;
 
 }
 
 
+
 .title{
 
-font-weight:bold;
+font-size:15px;
 
-color:#ffb870;
+font-weight:600;
 
 }
 
@@ -291,35 +282,7 @@ color:#ffb870;
 
 white-space:pre-line;
 
-color:#cfd6da;
-
-line-height:1.7;
-
-}
-
-
-
-/* 詳細 */
-
-.detail img{
-
-width:100%;
-
-margin-top:10px;
-
-border:1px solid #ff7a00;
-
-}
-
-
-.detail iframe{
-
-width:100%;
-height:320px;
-
-margin-top:10px;
-
-border:1px solid #ff7a00;
+line-height:1.6;
 
 }
 
@@ -337,9 +300,9 @@ left:0;
 width:100%;
 height:100%;
 
-background:#050607;
+background:#000c;
 
-padding:30px;
+padding:40px;
 
 display:none;
 
@@ -350,37 +313,43 @@ z-index:9999;
 }
 
 
+
 .modal img{
 
 width:100%;
 
-margin-top:10px;
+margin-top:20px;
 
 }
+
 
 
 .modal iframe{
 
 width:100%;
-height:400px;
+height:420px;
 
-margin-top:10px;
+margin-top:20px;
 
 }
 
 
 
-/* 閉じる */
+/* 閉じるボタン */
 
 .closeBtn{
 
+margin-bottom:20px;
+
 padding:10px 20px;
 
-border:1px solid #ff7a00;
+border-radius:6px;
 
-background:#141a1f;
+border:none;
 
-color:#ffb870;
+background:#ff8800;
+
+color:black;
 
 cursor:pointer;
 
@@ -390,7 +359,7 @@ cursor:pointer;
 
 /* スマホ */
 
-@media(max-width:700px){
+@media(max-width:900px){
 
 .container{
 
@@ -398,27 +367,20 @@ flex-direction:column;
 
 }
 
-.categories{
-
-width:100%;
-
-}
-
+.categories,
 .products{
 
 width:100%;
+
+min-width:unset;
+
+max-width:unset;
 
 }
 
 .detail{
 
 display:none;
-
-}
-
-.modal iframe{
-
-height:250px;
 
 }
 
