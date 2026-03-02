@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="ja">
+
 <head>
 
 <meta charset="utf-8">
@@ -7,36 +8,24 @@
 
 <title>00001</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Noto+Sans+JP&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
+
 
 <style>
 
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
-}
+*{box-sizing:border-box;margin:0;padding:0;}
 
 body{
 
-font-family:"Noto Sans JP",sans-serif;
+font-family:"Noto Sans JP";
 
 color:#eafaff;
 
 background:
-linear-gradient(
-120deg,
-#020617,
-#000814,
-#001020,
-#020617
-);
+linear-gradient(120deg,#020617,#000814,#001020,#020617);
 
 background-size:400% 400%;
-
 animation:bgmove 25s ease infinite;
-
-min-height:100vh;
 
 }
 
@@ -48,10 +37,6 @@ min-height:100vh;
 
 }
 
-
-
-/* ===== Header ===== */
-
 .header{
 
 position:fixed;
@@ -59,7 +44,7 @@ top:0;
 left:0;
 right:0;
 
-height:65px;
+height:60px;
 
 display:flex;
 align-items:center;
@@ -69,126 +54,56 @@ background:#000;
 
 border-bottom:1px solid #00eaff55;
 
-box-shadow:0 0 40px #00eaff33;
-
-z-index:100;
-
 }
-
 
 .logoText{
 
-font-size:22px;
-
+font-size:20px;
 font-weight:bold;
 
 background:linear-gradient(90deg,#00eaff,#00ff9d);
-
 -webkit-background-clip:text;
-
 color:transparent;
 
 }
 
-
-
-/* ===== Layout ===== */
-
 .container{
 
-max-width:1400px;
-
-margin:80px auto;
-
-padding:15px;
+max-width:1200px;
+margin:70px auto 0;
+padding:10px;
 
 display:flex;
-
-gap:20px;
+gap:15px;
 
 }
-
-
-
-/* ===== Panels ===== */
 
 .panel{
 
-position:relative;
-
-background:rgba(0,0,0,.85);
-
-border-radius:16px;
-
-padding:16px;
-
-overflow:hidden;
-
-}
-
-
-
-/* ネオン枠 */
-
-.panel::before{
-
-content:"";
-
-position:absolute;
-
-inset:-2px;
-
-background:
-
-linear-gradient(
-60deg,
-#00eaff,
-#00ff9d,
-#00eaff
-);
-
-background-size:300%;
-
-animation:neonMove 6s linear infinite;
-
-filter:blur(8px);
-
-z-index:-1;
-
-}
-
-@keyframes neonMove{
-
-0%{background-position:0%;}
-100%{background-position:300%;}
-
-}
-
-
-
-.categories{width:250px;}
-.products{width:420px;}
-.detail{flex:1;}
-
-
-
-/* ===== Category ===== */
-
-.categoryBtn{
-
-padding:12px;
-
-margin:6px 0;
-
-cursor:pointer;
-
+background:#000814;
+padding:15px;
 border-radius:10px;
-
-background:#020617;
 
 border:1px solid #00eaff33;
 
-transition:.2s;
+}
+
+.categories{width:250px;}
+.products{width:400px;}
+.detail{flex:1;}
+
+.categoryBtn{
+
+padding:10px;
+margin-bottom:6px;
+
+cursor:pointer;
+
+background:#020617;
+
+border-radius:8px;
+
+border:1px solid #00eaff33;
 
 }
 
@@ -196,298 +111,126 @@ transition:.2s;
 
 background:#001020;
 
-box-shadow:0 0 20px #00eaff55;
+box-shadow:0 0 15px #00eaff;
 
 }
-
-
-
-/* ===== Search ===== */
 
 #searchBox{
 
 width:100%;
-
-padding:12px;
-
-margin-bottom:12px;
+padding:10px;
+margin-bottom:10px;
 
 background:#000;
 
-border:1px solid #00eaff55;
-
 color:#00eaff;
 
-border-radius:10px;
-
-}
-
-
-
-/* ===== Steam風カード ===== */
-
-.card{
-
-position:relative;
-
-display:flex;
-
-gap:12px;
-
-padding:14px;
-
-margin-bottom:12px;
-
-cursor:pointer;
-
-border-radius:10px;
-
-background:
-
-linear-gradient(
-180deg,
-#001020,
-#000814
-);
-
-border:1px solid #00eaff33;
-
-transition:.2s;
-
-overflow:hidden;
-
-}
-
-
-
-/* Steam風ホバー */
-
-.card:hover{
-
-background:
-
-linear-gradient(
-180deg,
-#002030,
-#001020
-);
-
-border:1px solid #00eaff;
-
-box-shadow:
-
-0 0 30px #00eaff55;
-
-}
-
-
-
-/* ネオンライン */
-
-.card::before{
-
-content:"";
-
-position:absolute;
-
-top:0;
-left:-100%;
-
-width:100%;
-height:2px;
-
-background:
-
-linear-gradient(
-90deg,
-transparent,
-#00eaff,
-transparent
-);
-
-transition:.6s;
-
-}
-
-.card:hover::before{
-left:100%;
-}
-
-
-
-/* ガラス反射 */
-
-.card::after{
-
-content:"";
-
-position:absolute;
-
-top:-50%;
-left:-50%;
-
-width:200%;
-height:200%;
-
-background:
-
-linear-gradient(
-120deg,
-transparent 40%,
-rgba(255,255,255,.15) 50%,
-transparent 60%
-);
-
-transform:rotate(25deg);
-
-opacity:0;
-
-transition:1s;
-
-}
-
-.card:hover::after{
-
-left:120%;
-opacity:1;
-
-}
-
-
-
-/* 商品画像 */
-
-.card img{
-
-width:90px;
-height:90px;
+border:1px solid #00eaff55;
 
 border-radius:8px;
 
-object-fit:cover;
+}
 
-border:1px solid #00eaff44;
+.card{
+
+display:flex;
+gap:10px;
+
+padding:10px;
+
+margin-bottom:10px;
+
+cursor:pointer;
+
+border-radius:8px;
+
+background:#020617;
+
+border:1px solid #00eaff33;
 
 }
 
+.card:hover{
 
+box-shadow:0 0 20px #00eaff;
 
-/* タイトル */
+}
+
+.card img{
+
+width:80px;
+height:80px;
+
+object-fit:cover;
+
+border-radius:8px;
+
+}
 
 .title{
 
-font-size:16px;
 font-weight:bold;
 
 }
 
-
-
-/* 説明改行 */
-
 .desc{
 
 white-space:pre-line;
-
-line-height:1.7;
-
-opacity:.9;
+font-size:14px;
 
 }
-
-
-
-/* ===== Detail ===== */
 
 .detail img{
 
 width:100%;
-
 border-radius:10px;
 
-border:1px solid #00eaff44;
-
-box-shadow:0 0 20px #00eaff33;
+margin-top:10px;
 
 }
 
-
-
-.detail iframe{
+iframe{
 
 width:100%;
-height:320px;
+height:300px;
 
-border-radius:10px;
+margin-top:10px;
 
-border:1px solid #00eaff44;
-
-}
-
-
-
-/* 表示アニメ */
-
-.detail{
-
-animation:fade .4s ease;
+border:none;
 
 }
 
-@keyframes fade{
+.modal{
 
-0%{opacity:.4;}
-100%{opacity:1;}
+position:fixed;
+top:0;
+left:0;
 
-}
+width:100%;
+height:100%;
 
+background:#000;
 
+padding:20px;
 
-/* ===== Scrollbar ===== */
+display:none;
 
-::-webkit-scrollbar{
-width:8px;
-}
-
-::-webkit-scrollbar-thumb{
-
-background:#00eaff;
-border-radius:10px;
+overflow:auto;
 
 }
-
-
-
-/* ===== Mobile ===== */
 
 @media(max-width:700px){
 
 .container{
-
 flex-direction:column;
-
-margin-top:70px;
-
 }
 
-.panel{
-width:100%;
-}
-
-.categories,
-.products{
+.categories,.products{
 width:100%;
 }
 
 .detail{
 display:none;
-}
-
-.card img{
-
-width:100px;
-height:100px;
-
 }
 
 }
@@ -502,38 +245,46 @@ height:100px;
 <div class="logoText">00001</div>
 </div>
 
+
 <div class="container">
 
+
 <div class="panel categories">
-<h3>CONTENTS</h3>
+
+<h3>カテゴリ</h3>
+
 <div id="categoryList"></div>
+
 </div>
+
 
 <div class="panel products">
 
-<h3>PRODUCT DATABASE</h3>
-
 <input id="searchBox"
-placeholder="SEARCH PRODUCT"
+placeholder="検索"
 oninput="searchAll()">
 
 <div id="productList"></div>
 
 </div>
 
+
 <div class="panel detail">
 
-<h3>DETAIL INFO</h3>
-
 <div id="productDetail">
-SELECT PRODUCT
-</div>
+
+商品を選択
 
 </div>
 
 </div>
+
+
+</div>
+
 
 <div id="mobileModal" class="modal"></div>
+
 
 
 <script type="module">
@@ -551,14 +302,11 @@ orderBy
 from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 
-const firebaseConfig = {
+const firebaseConfig={
 
-apiKey: "AIzaSyDDhUgvH7o4SymhG3QVTRe6CDAlJM_Vk_A",
-authDomain: "project-3088108151926999605.firebaseapp.com",
-projectId: "project-3088108151926999605",
-storageBucket: "project-3088108151926999605.firebasestorage.app",
-messagingSenderId: "331871777494",
-appId: "1:331871777494:web:8de28a405de387f7240f77"
+apiKey:"AIzaSyDDhUgvH7o4SymhG3QVTRe6CDAlJM_Vk_A",
+authDomain:"project-3088108151926999605.firebaseapp.com",
+projectId:"project-3088108151926999605"
 
 };
 
@@ -575,7 +323,7 @@ let currentCategory=null;
 const categoryList=document.getElementById("categoryList");
 const productList=document.getElementById("productList");
 const detail=document.getElementById("productDetail");
-const mobileModal=document.getElementById("mobileModal");
+const modal=document.getElementById("mobileModal");
 
 
 function renderCategories(){
@@ -585,13 +333,17 @@ categoryList.innerHTML="";
 categories.forEach(c=>{
 
 const div=document.createElement("div");
-div.className="categoryBtn";
-div.onclick=()=>selectCategory(c);
 
-div.innerHTML=`
-<img src="${c.img||""}" onerror="this.style.display='none'">
-<span>${c.name}</span>
-`;
+div.className="categoryBtn";
+
+div.textContent=c.name;
+
+div.onclick=()=>{
+
+currentCategory=c.id || c.name;
+renderProducts();
+
+};
 
 categoryList.appendChild(div);
 
@@ -600,33 +352,47 @@ categoryList.appendChild(div);
 }
 
 
-function selectCategory(c){
-
-currentCategory=c.id;
-renderProducts();
-
-}
-
 
 function renderProducts(){
 
 productList.innerHTML="";
 
-const filtered=products
-.filter(p=>!currentCategory||p.category===currentCategory);
+products
 
-filtered.forEach(p=>{
+.filter(p=>
+
+!currentCategory
+
+||
+
+p.category===currentCategory
+
+||
+
+p.categoryName===currentCategory
+
+)
+
+.forEach(p=>{
 
 const div=document.createElement("div");
+
 div.className="card";
+
 div.onclick=()=>showDetail(p);
 
 div.innerHTML=`
-<img src="${p.img||""}" onerror="this.style.display='none'">
+
+<img src="${p.img||""}">
+
 <div>
+
 <div class="title">${p.name}</div>
+
 <div class="desc">${p.desc||""}</div>
+
 </div>
+
 `;
 
 productList.appendChild(div);
@@ -634,34 +400,56 @@ productList.appendChild(div);
 });
 
 }
+
 
 
 window.searchAll=function(){
 
-const q=document.getElementById("searchBox").value.toLowerCase();
+const q=document
+.getElementById("searchBox")
+.value
+.toLowerCase();
+
 
 productList.innerHTML="";
 
+
 products
+
 .filter(p=>
 
-(!currentCategory||p.category===currentCategory)
+(!currentCategory||
+
+p.category===currentCategory||
+
+p.categoryName===currentCategory)
+
 &&
+
 (p.name||"").toLowerCase().includes(q)
 
 )
+
 .forEach(p=>{
 
 const div=document.createElement("div");
+
 div.className="card";
+
 div.onclick=()=>showDetail(p);
 
 div.innerHTML=`
-<img src="${p.img||""}" onerror="this.style.display='none'">
+
+<img src="${p.img||""}">
+
 <div>
+
 <div class="title">${p.name}</div>
+
 <div class="desc">${p.desc||""}</div>
+
 </div>
+
 `;
 
 productList.appendChild(div);
@@ -669,30 +457,32 @@ productList.appendChild(div);
 });
 
 }
+
 
 
 function showDetail(p){
 
 let html=`
+
 <h2>${p.name}</h2>
+
 <div class="desc">${p.desc||""}</div>
+
 `;
 
-if(p.img){
-html+=`<img src="${p.img}">`;
-}
 
-if(p.video){
+if(p.img)
+html+=`<img src="${p.img}">`;
+
+
+if(p.video)
 html+=`<iframe src="${p.video}" allowfullscreen></iframe>`;
-}
+
 
 if(window.innerWidth<700){
 
-mobileModal.style.display="block";
-mobileModal.innerHTML=`
-<button onclick="closeModal()">CLOSE</button>
-${html}
-`;
+modal.style.display="block";
+modal.innerHTML=html;
 
 }else{
 
@@ -703,33 +493,30 @@ detail.innerHTML=html;
 }
 
 
-window.closeModal=function(){
 
-mobileModal.style.display="none";
+const q1=query(collection(db,"categories"),orderBy("order"));
 
-};
-
-
-const qCat=query(collection(db,"categories"),orderBy("order"));
-const qPro=query(collection(db,"products"),orderBy("order"));
+const q2=query(collection(db,"products"),orderBy("order"));
 
 
-onSnapshot(qCat,snap=>{
+onSnapshot(q1,s=>{
 
-categories=snap.docs.map(d=>({id:d.id,...d.data()}));
+categories=s.docs.map(d=>({id:d.id,...d.data()}));
 renderCategories();
 
 });
 
 
-onSnapshot(qPro,snap=>{
+onSnapshot(q2,s=>{
 
-products=snap.docs.map(d=>d.data());
+products=s.docs.map(d=>d.data());
 renderProducts();
 
 });
 
+
 </script>
 
 </body>
+
 </html>
