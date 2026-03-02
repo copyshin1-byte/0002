@@ -22,7 +22,6 @@
 </div>
 
 
-
 <div class="container">
 
 
@@ -47,22 +46,12 @@ oninput="searchAll()">
 </div>
 
 
-
-<div class="panel detail">
-
-<h3>商品説明</h3>
-
-<div id="productDetail"></div>
-
-</div>
-
-
 </div>
 
 
 
-<!-- スマホ用モーダル -->
-<div id="mobileModal" class="modal"></div>
+<!-- 大画面説明ウィンドウ -->
+<div id="modal" class="modal"></div>
 
 
 
@@ -99,8 +88,7 @@ let currentCategory=null;
 
 const categoryList=document.getElementById("categoryList");
 const productList=document.getElementById("productList");
-const detail=document.getElementById("productDetail");
-const modal=document.getElementById("mobileModal");
+const modal=document.getElementById("modal");
 
 
 
@@ -121,8 +109,6 @@ div.onclick=()=>{
 currentCategory=c.name;
 
 renderProducts();
-
-detail.innerHTML="";
 
 };
 
@@ -214,11 +200,17 @@ function showDetail(p){
 
 let html=`
 
-<button onclick="closeModal()" style="margin-bottom:15px">閉じる</button>
+<button onclick="closeModal()" class="closeBtn">
+閉じる
+</button>
 
-<h2>${p.name}</h2>
+<h1>${p.name}</h1>
 
-<div class="desc">${p.desc||""}</div>
+<div class="desc">
+
+${p.desc||""}
+
+</div>
 
 `;
 
@@ -229,22 +221,9 @@ if(p.video)
 html+=`<iframe src="${p.video}" allowfullscreen></iframe>`;
 
 
-/* スマホ */
-
-if(window.innerWidth<700){
-
-modal.style.display="block";
 modal.innerHTML=html;
 
-}
-
-/* PC */
-
-else{
-
-detail.innerHTML=html;
-
-}
+modal.style.display="block";
 
 }
 
