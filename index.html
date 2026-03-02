@@ -22,6 +22,7 @@
 </div>
 
 
+
 <div class="container">
 
 
@@ -50,22 +51,23 @@ oninput="searchAll()">
 
 
 
-<!-- 大画面説明ウィンドウ -->
+<!-- 商品説明大画面 -->
 <div id="modal" class="modal"></div>
 
 
 
 <script type="module">
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 
 import {
 getFirestore,
 collection,
 onSnapshot
 }
-
 from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
 
 
 const firebaseConfig={
@@ -91,6 +93,8 @@ const productList=document.getElementById("productList");
 const modal=document.getElementById("modal");
 
 
+
+/* カテゴリ表示 */
 
 function renderCategories(){
 
@@ -120,6 +124,8 @@ categoryList.appendChild(div);
 
 
 
+/* 商品表示 */
+
 function renderProducts(){
 
 productList.innerHTML="";
@@ -139,7 +145,11 @@ div.innerHTML=`
 
 <img src="${p.image||""}">
 
-<div class="title">${p.name}</div>
+<div class="title">
+
+${p.name}
+
+</div>
 
 `;
 
@@ -150,6 +160,8 @@ productList.appendChild(div);
 }
 
 
+
+/* 検索 */
 
 window.searchAll=function(){
 
@@ -167,8 +179,12 @@ products
 .filter(p=>
 
 p.category===currentCategory
+
 &&
-(p.name||"").toLowerCase().includes(q)
+
+(p.name||"")
+.toLowerCase()
+.includes(q)
 
 )
 
@@ -184,7 +200,11 @@ div.innerHTML=`
 
 <img src="${p.image||""}">
 
-<div class="title">${p.name}</div>
+<div class="title">
+
+${p.name}
+
+</div>
 
 `;
 
@@ -196,15 +216,28 @@ productList.appendChild(div);
 
 
 
+/* 商品説明表示 */
+
 function showDetail(p){
 
 let html=`
 
-<button onclick="closeModal()" class="closeBtn">
+<div style="max-width:900px;margin:auto">
+
+<button onclick="closeModal()"
+style="margin-bottom:20px;padding:10px 20px">
+
 閉じる
+
 </button>
 
-<h1>${p.name}</h1>
+
+<h1>
+
+${p.name}
+
+</h1>
+
 
 <div class="desc">
 
@@ -215,10 +248,16 @@ ${p.desc||""}
 `;
 
 if(p.image)
+
 html+=`<img src="${p.image}">`;
 
+
 if(p.video)
+
 html+=`<iframe src="${p.video}" allowfullscreen></iframe>`;
+
+
+html+=`</div>`;
 
 
 modal.innerHTML=html;
@@ -228,6 +267,9 @@ modal.style.display="block";
 }
 
 
+
+/* 閉じる */
+
 window.closeModal=function(){
 
 modal.style.display="none";
@@ -235,9 +277,13 @@ modal.style.display="none";
 }
 
 
+
+/* Firebase */
+
 onSnapshot(collection(db,"categories"),s=>{
 
 categories=s.docs.map(d=>d.data());
+
 renderCategories();
 
 });
