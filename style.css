@@ -11,10 +11,7 @@ font-family:-apple-system,BlinkMacSystemFont,
 
 color:#c7d5e0;
 
-/* Steam本物に近い背景 */
-
 background:
-
 linear-gradient(
 180deg,
 #1b2838,
@@ -24,7 +21,6 @@ linear-gradient(
 min-height:100vh;
 
 }
-
 
 
 /* ヘッダー */
@@ -42,10 +38,7 @@ display:flex;
 align-items:center;
 justify-content:center;
 
-/* Steamヘッダー */
-
 background:
-
 linear-gradient(
 #171a21,
 #0f1217
@@ -54,7 +47,6 @@ linear-gradient(
 border-bottom:1px solid #2a475e;
 
 box-shadow:
-
 0 4px 20px rgba(0,0,0,.6);
 
 z-index:100;
@@ -99,7 +91,6 @@ gap:25px;
 .panel{
 
 background:
-
 linear-gradient(
 #16202d,
 #101822
@@ -115,26 +106,42 @@ border:1px solid #2a475e;
 
 
 
-.categories{width:250px;}
+.categories{
+width:100%;
+overflow-x:auto;
+white-space:nowrap;
+padding-bottom:10px;
+}
+
 .products{width:420px;}
 .detail{flex:1;}
 
 
 
-/* カテゴリ */
+/* 横並びカテゴリ */
+
+#categoryList{
+
+display:flex;
+gap:12px;
+
+}
+
+
+
+/* Steam風カテゴリカード */
 
 .categoryBtn{
 
-padding:12px;
+flex:0 0 auto;
 
-margin:6px 0;
+width:130px;
 
 cursor:pointer;
 
-border-radius:4px;
+border-radius:6px;
 
 background:
-
 linear-gradient(
 #1b2838,
 #16202d
@@ -142,9 +149,9 @@ linear-gradient(
 
 border:1px solid #2a475e;
 
-display:flex;
-align-items:center;
-gap:10px;
+text-align:center;
+
+padding:10px;
 
 transition:.15s;
 
@@ -154,11 +161,12 @@ transition:.15s;
 .categoryBtn:hover{
 
 background:
-
 linear-gradient(
 #2a475e,
 #1b2838
 );
+
+border:1px solid #66c0f4;
 
 }
 
@@ -168,14 +176,48 @@ linear-gradient(
 
 .categoryBtn img{
 
-width:36px;
-height:36px;
+width:100%;
+height:70px;
 
-border-radius:3px;
+border-radius:4px;
 
 object-fit:cover;
 
+margin-bottom:6px;
+
 border:1px solid #2a475e;
+
+}
+
+
+
+/* カテゴリ文字 */
+
+.categoryBtn span{
+
+font-size:14px;
+
+color:#ffffff;
+
+display:block;
+
+}
+
+
+
+/* 横スクロールバー */
+
+.categories::-webkit-scrollbar{
+
+height:8px;
+
+}
+
+.categories::-webkit-scrollbar-thumb{
+
+background:#66c0f4;
+
+border-radius:10px;
 
 }
 
@@ -230,7 +272,6 @@ cursor:pointer;
 border-radius:4px;
 
 background:
-
 linear-gradient(
 #1b2838,
 #16202d
@@ -246,7 +287,6 @@ transition:.15s;
 .card:hover{
 
 background:
-
 linear-gradient(
 #2a475e,
 #1b2838
@@ -355,7 +395,6 @@ width:100%;
 height:100%;
 
 background:
-
 linear-gradient(
 #171a21,
 #0f1217
@@ -465,23 +504,16 @@ margin-top:70px;
 
 }
 
-.categories,
 .products{
-
 width:100%;
-
 }
 
 .detail{
-
 display:none;
-
 }
 
 .modal iframe{
-
 height:250px;
-
 }
 
 }
