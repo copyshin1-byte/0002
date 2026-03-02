@@ -9,18 +9,37 @@ body{
 font-family:-apple-system,BlinkMacSystemFont,
 "Noto Sans JP",sans-serif;
 
-color:#c7d5e0;
+color:#e5e5e5;
+
+/* Steam × 木目ダーク背景 */
 
 background:
+
 linear-gradient(
-180deg,
-#1b2838,
-#171a21
+rgba(10,12,16,.95),
+rgba(6,8,10,.95)
+),
+
+repeating-linear-gradient(
+90deg,
+#1a1f26 0px,
+#1a1f26 6px,
+#161b21 6px,
+#161b21 12px
+),
+
+repeating-linear-gradient(
+0deg,
+#11151a 0px,
+#11151a 4px,
+#0d1116 4px,
+#0d1116 8px
 );
 
 min-height:100vh;
 
 }
+
 
 
 /* ヘッダー */
@@ -39,15 +58,17 @@ align-items:center;
 justify-content:center;
 
 background:
+
 linear-gradient(
 #171a21,
 #0f1217
 );
 
-border-bottom:1px solid #2a475e;
+border-bottom:2px solid #66c0f4;
 
 box-shadow:
-0 4px 20px rgba(0,0,0,.6);
+
+0 5px 25px rgba(0,0,0,.8);
 
 z-index:100;
 
@@ -91,69 +112,58 @@ gap:25px;
 .panel{
 
 background:
+
 linear-gradient(
-#16202d,
-#101822
+#1b2026,
+#12161c
 );
 
-border-radius:6px;
+border-radius:16px;
 
 padding:18px;
 
-border:1px solid #2a475e;
+border:1px solid #2f3945;
+
+box-shadow:
+
+0 15px 40px rgba(0,0,0,.7);
 
 }
 
 
 
-.categories{
-width:100%;
-overflow-x:auto;
-white-space:nowrap;
-padding-bottom:10px;
-}
-
+.categories{width:250px;}
 .products{width:420px;}
 .detail{flex:1;}
 
 
 
-/* 横並びカテゴリ */
-
-#categoryList{
-
-display:flex;
-gap:12px;
-
-}
-
-
-
-/* Steam風カテゴリカード */
+/* カテゴリ */
 
 .categoryBtn{
 
-flex:0 0 auto;
+padding:14px;
 
-width:130px;
+margin:8px 0;
 
 cursor:pointer;
 
-border-radius:6px;
+border-radius:10px;
 
 background:
+
 linear-gradient(
-#1b2838,
-#16202d
+#1c222a,
+#151a20
 );
 
-border:1px solid #2a475e;
+border:1px solid #2f3945;
 
-text-align:center;
+display:flex;
+align-items:center;
+gap:12px;
 
-padding:10px;
-
-transition:.15s;
+transition:.2s;
 
 }
 
@@ -161,12 +171,15 @@ transition:.15s;
 .categoryBtn:hover{
 
 background:
+
 linear-gradient(
-#2a475e,
-#1b2838
+#24303c,
+#1b232d
 );
 
-border:1px solid #66c0f4;
+box-shadow:
+
+0 0 15px #66c0f444;
 
 }
 
@@ -176,48 +189,14 @@ border:1px solid #66c0f4;
 
 .categoryBtn img{
 
-width:100%;
-height:70px;
+width:38px;
+height:38px;
 
-border-radius:4px;
+border-radius:6px;
 
 object-fit:cover;
 
-margin-bottom:6px;
-
-border:1px solid #2a475e;
-
-}
-
-
-
-/* カテゴリ文字 */
-
-.categoryBtn span{
-
-font-size:14px;
-
-color:#ffffff;
-
-display:block;
-
-}
-
-
-
-/* 横スクロールバー */
-
-.categories::-webkit-scrollbar{
-
-height:8px;
-
-}
-
-.categories::-webkit-scrollbar-thumb{
-
-background:#66c0f4;
-
-border-radius:10px;
+border:1px solid #444;
 
 }
 
@@ -229,27 +208,30 @@ border-radius:10px;
 
 width:100%;
 
-padding:12px;
+padding:14px;
 
-margin-bottom:12px;
+margin-bottom:14px;
 
-background:#0f1217;
+background:#0f141a;
 
-border:1px solid #2a475e;
+border:1px solid #2f3945;
 
 color:#66c0f4;
 
-border-radius:4px;
+border-radius:10px;
 
 outline:none;
 
 }
 
 
-
 #searchBox:focus{
 
 border:1px solid #66c0f4;
+
+box-shadow:
+
+0 0 10px #66c0f444;
 
 }
 
@@ -261,25 +243,26 @@ border:1px solid #66c0f4;
 
 display:flex;
 
-gap:12px;
+gap:14px;
 
-padding:14px;
+padding:16px;
 
-margin-bottom:12px;
+margin-bottom:14px;
 
 cursor:pointer;
 
-border-radius:4px;
+border-radius:10px;
 
 background:
+
 linear-gradient(
-#1b2838,
-#16202d
+#1b2026,
+#12161c
 );
 
-border:1px solid #2a475e;
+border:1px solid #2f3945;
 
-transition:.15s;
+transition:.25s;
 
 }
 
@@ -287,12 +270,19 @@ transition:.15s;
 .card:hover{
 
 background:
+
 linear-gradient(
-#2a475e,
-#1b2838
+#24303c,
+#1b232d
 );
 
 border:1px solid #66c0f4;
+
+box-shadow:
+
+0 15px 40px rgba(0,0,0,.9);
+
+transform:translateY(-2px);
 
 }
 
@@ -303,11 +293,11 @@ border:1px solid #66c0f4;
 width:90px;
 height:90px;
 
-border-radius:3px;
+border-radius:6px;
 
 object-fit:cover;
 
-border:1px solid #2a475e;
+border:1px solid #444;
 
 }
 
@@ -331,7 +321,7 @@ color:#ffffff;
 
 white-space:pre-line;
 
-line-height:1.7;
+line-height:1.8;
 
 color:#c7d5e0;
 
@@ -355,11 +345,11 @@ min-height:500px;
 
 width:100%;
 
-border-radius:4px;
+border-radius:10px;
 
-margin-top:12px;
+margin-top:15px;
 
-border:1px solid #2a475e;
+border:1px solid #444;
 
 }
 
@@ -372,11 +362,11 @@ border:1px solid #2a475e;
 width:100%;
 height:350px;
 
-margin-top:12px;
+margin-top:15px;
 
-border-radius:4px;
+border-radius:10px;
 
-border:1px solid #2a475e;
+border:1px solid #444;
 
 }
 
@@ -395,9 +385,10 @@ width:100%;
 height:100%;
 
 background:
+
 linear-gradient(
-#171a21,
-#0f1217
+rgba(8,10,12,.97),
+rgba(5,7,9,.97)
 );
 
 color:#c7d5e0;
@@ -420,9 +411,9 @@ width:100%;
 
 margin-top:20px;
 
-border-radius:4px;
+border-radius:10px;
 
-border:1px solid #2a475e;
+border:1px solid #444;
 
 }
 
@@ -435,9 +426,9 @@ height:420px;
 
 margin-top:20px;
 
-border-radius:4px;
+border-radius:10px;
 
-border:1px solid #2a475e;
+border:1px solid #444;
 
 }
 
@@ -449,9 +440,9 @@ border:1px solid #2a475e;
 
 margin-bottom:20px;
 
-padding:10px 20px;
+padding:12px 24px;
 
-border-radius:4px;
+border-radius:10px;
 
 border:1px solid #66c0f4;
 
@@ -461,14 +452,14 @@ color:#66c0f4;
 
 cursor:pointer;
 
-font-size:14px;
+font-size:15px;
 
 }
 
 
 .closeBtn:hover{
 
-background:#2a475e;
+background:#24303c;
 
 }
 
@@ -486,7 +477,7 @@ width:8px;
 
 background:#66c0f4;
 
-border-radius:4px;
+border-radius:10px;
 
 }
 
@@ -504,16 +495,23 @@ margin-top:70px;
 
 }
 
+.categories,
 .products{
+
 width:100%;
+
 }
 
 .detail{
+
 display:none;
+
 }
 
 .modal iframe{
+
 height:250px;
+
 }
 
 }
