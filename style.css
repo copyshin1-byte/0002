@@ -11,6 +11,8 @@ font-family:-apple-system,BlinkMacSystemFont,
 
 color:#e8e1d8;
 
+/* 黒ウォールナット木目 */
+
 background:
 
 linear-gradient(
@@ -23,12 +25,23 @@ repeating-linear-gradient(
 #3a2a20 0px,
 #3a2a20 4px,
 #2e221a 4px,
-#2e221a 8px
+#2e221a 8px,
+#382920 8px,
+#382920 12px
+),
+
+repeating-linear-gradient(
+0deg,
+#2b1f18 0px,
+#2b1f18 2px,
+#241a14 2px,
+#241a14 4px
 );
 
 min-height:100vh;
 
 }
+
 
 
 /* ヘッダー */
@@ -46,6 +59,8 @@ display:flex;
 align-items:center;
 justify-content:center;
 
+/* 高級黒木目 */
+
 background:
 
 linear-gradient(
@@ -55,17 +70,23 @@ linear-gradient(
 
 border-bottom:2px solid #c8a96a;
 
-box-shadow:0 5px 30px rgba(0,0,0,.8);
+box-shadow:
+
+0 5px 30px rgba(0,0,0,.8);
 
 z-index:100;
 
 }
 
+
 .logoText{
 
 font-size:22px;
+
 font-weight:600;
+
 letter-spacing:2px;
+
 color:#e6d3a3;
 
 }
@@ -86,8 +107,6 @@ display:flex;
 
 gap:25px;
 
-flex-wrap:wrap;
-
 }
 
 
@@ -107,54 +126,35 @@ border-radius:18px;
 
 padding:18px;
 
+/* 金ライン */
+
 border:1px solid #6b5536;
 
-box-shadow:0 20px 50px rgba(0,0,0,.9);
+box-shadow:
+
+0 20px 50px rgba(0,0,0,.9);
 
 }
 
 
 
-/* 横スクロールカテゴリ */
-
-.categories{
-
-width:100%;
-
-overflow-x:auto;
-
-white-space:nowrap;
-
-padding-bottom:10px;
-
-margin-bottom:10px;
-
-}
-
-
-/* 横並び */
-
-#categoryList{
-
-display:flex;
-
-gap:12px;
-
-}
+.categories{width:250px;}
+.products{width:420px;}
+.detail{flex:1;}
 
 
 
-/* カテゴリボタン */
+/* カテゴリ */
 
 .categoryBtn{
 
-flex:0 0 auto;
+padding:14px;
 
-padding:12px 18px;
+margin:8px 0;
 
 cursor:pointer;
 
-border-radius:30px;
+border-radius:12px;
 
 background:
 
@@ -167,7 +167,7 @@ border:1px solid #6b5536;
 
 display:flex;
 align-items:center;
-gap:10px;
+gap:12px;
 
 transition:.2s;
 
@@ -176,24 +176,29 @@ transition:.2s;
 
 .categoryBtn:hover{
 
-border:1px solid #c8a96a;
+background:
+
+linear-gradient(
+#2a211b,
+#18120e
+);
 
 box-shadow:
 
-0 0 15px #c8a96a55;
+0 0 15px #c8a96a44;
 
 }
 
 
 
-/* アイコン */
+/* カテゴリアイコン */
 
 .categoryBtn img{
 
-width:28px;
-height:28px;
+width:38px;
+height:38px;
 
-border-radius:6px;
+border-radius:8px;
 
 object-fit:cover;
 
@@ -203,13 +208,39 @@ border:1px solid #8b7355;
 
 
 
-/* 商品一覧 */
+/* 検索 */
 
-.products{
+#searchBox{
 
-width:420px;
+width:100%;
+
+padding:14px;
+
+margin-bottom:14px;
+
+background:#0d0a08;
+
+border:1px solid #6b5536;
+
+color:#e6d3a3;
+
+border-radius:12px;
+
+outline:none;
 
 }
+
+
+#searchBox:focus{
+
+border:1px solid #c8a96a;
+
+box-shadow:
+
+0 0 10px #c8a96a33;
+
+}
+
 
 
 /* 商品カード */
@@ -244,11 +275,20 @@ transition:.25s;
 
 .card:hover{
 
+background:
+
+linear-gradient(
+#2a211b,
+#18120e
+);
+
 border:1px solid #c8a96a;
 
 box-shadow:
 
 0 15px 40px rgba(0,0,0,.9);
+
+transform:translateY(-2px);
 
 }
 
@@ -281,18 +321,6 @@ color:#e6d3a3;
 
 
 
-/* 詳細 */
-
-.detail{
-
-flex:1;
-
-min-height:500px;
-
-}
-
-
-
 /* 説明 */
 
 .desc{
@@ -307,7 +335,17 @@ color:#d6c6aa;
 
 
 
-/* 画像 */
+/* 詳細 */
+
+.detail{
+
+min-height:500px;
+
+}
+
+
+
+/* 詳細画像 */
 
 .detail img{
 
@@ -373,7 +411,36 @@ z-index:9999;
 
 
 
-/* 閉じる */
+.modal img{
+
+width:100%;
+
+margin-top:20px;
+
+border-radius:12px;
+
+border:1px solid #8b7355;
+
+}
+
+
+.modal iframe{
+
+width:100%;
+
+height:420px;
+
+margin-top:20px;
+
+border-radius:12px;
+
+border:1px solid #8b7355;
+
+}
+
+
+
+/* 閉じるボタン */
 
 .closeBtn{
 
@@ -391,6 +458,19 @@ color:#e6d3a3;
 
 cursor:pointer;
 
+font-size:15px;
+
+}
+
+
+.closeBtn:hover{
+
+background:#2a211b;
+
+box-shadow:
+
+0 0 15px #c8a96a66;
+
 }
 
 
@@ -398,13 +478,17 @@ cursor:pointer;
 /* スクロールバー */
 
 ::-webkit-scrollbar{
-height:6px;
-width:6px;
+
+width:8px;
+
 }
 
 ::-webkit-scrollbar-thumb{
+
 background:#8b7355;
+
 border-radius:10px;
+
 }
 
 
@@ -413,16 +497,31 @@ border-radius:10px;
 
 @media(max-width:700px){
 
+.container{
+
+flex-direction:column;
+
+margin-top:70px;
+
+}
+
+.categories,
 .products{
+
 width:100%;
+
 }
 
 .detail{
+
 display:none;
+
 }
 
 .modal iframe{
+
 height:250px;
+
 }
 
 }
