@@ -10,29 +10,31 @@ font-family:"Noto Sans JP",sans-serif;
 
 color:#2b2b2b;
 
-/* 木目調背景 */
+/* 超リアル木目背景 */
 
 background:
 
 linear-gradient(
-rgba(255,255,255,0.85),
-rgba(255,255,255,0.85)
+rgba(255,255,255,0.75),
+rgba(255,255,255,0.75)
 ),
 
 repeating-linear-gradient(
 90deg,
-#e6dccf 0px,
-#e6dccf 6px,
-#ddd2c3 6px,
-#ddd2c3 12px
+#e4dacb 0px,
+#e4dacb 3px,
+#ddd2c1 3px,
+#ddd2c1 6px,
+#e8dfd2 6px,
+#e8dfd2 9px
 ),
 
 repeating-linear-gradient(
 0deg,
-#e2d7c7 0px,
-#e2d7c7 4px,
-#d8ccb9 4px,
-#d8ccb9 8px
+#e1d7c6 0px,
+#e1d7c6 2px,
+#d9cdb8 2px,
+#d9cdb8 4px
 );
 
 min-height:100vh;
@@ -56,23 +58,28 @@ display:flex;
 align-items:center;
 justify-content:center;
 
-/* ダーク木目 */
+/* ダークウォールナット風 */
 
 background:
 
+linear-gradient(
+#5a4332,
+#3f2f23
+),
+
 repeating-linear-gradient(
 90deg,
-#5c4634,
-#5c4634 6px,
-#4e3b2c 6px,
-#4e3b2c 12px
+#4c382a 0px,
+#4c382a 3px,
+#3e2d22 3px,
+#3e2d22 6px
 );
 
 color:white;
 
 box-shadow:
 
-0 4px 15px rgba(0,0,0,.3);
+0 4px 20px rgba(0,0,0,.35);
 
 z-index:100;
 
@@ -85,9 +92,9 @@ font-size:22px;
 
 font-weight:bold;
 
-color:#fff;
-
 letter-spacing:2px;
+
+color:#ffffff;
 
 }
 
@@ -118,19 +125,19 @@ gap:20px;
 background:
 
 linear-gradient(
-#faf7f2,
-#f1ece5
+#fbf8f3,
+#efe8dd
 );
 
-border-radius:14px;
+border-radius:16px;
 
 padding:16px;
 
+border:1px solid #d1c4b0;
+
 box-shadow:
 
-0 10px 25px rgba(0,0,0,.15);
-
-border:1px solid #d2c6b5;
+0 15px 30px rgba(0,0,0,.2);
 
 }
 
@@ -147,23 +154,28 @@ border:1px solid #d2c6b5;
 .categoryBtn{
 
 padding:12px;
+
 margin:6px 0;
 
 cursor:pointer;
 
 border-radius:10px;
 
+/* 明るい木目 */
+
 background:
 
 linear-gradient(
-#f7f3ec,
-#efe7dc
+#f5efe7,
+#ebe2d6
 );
 
 border:1px solid #cdbfae;
 
 display:flex;
+
 align-items:center;
+
 gap:10px;
 
 transition:.2s;
@@ -177,12 +189,12 @@ background:
 
 linear-gradient(
 #efe6d9,
-#e3d8c9
+#e1d6c5
 );
 
 box-shadow:
 
-0 5px 15px rgba(0,0,0,.15);
+0 6px 18px rgba(0,0,0,.2);
 
 }
 
@@ -192,14 +204,14 @@ box-shadow:
 
 .categoryBtn img{
 
-width:40px;
-height:40px;
+width:38px;
+height:38px;
 
 border-radius:8px;
 
 object-fit:cover;
 
-border:1px solid #cdbfae;
+border:1px solid #bcae9a;
 
 }
 
@@ -215,7 +227,7 @@ padding:12px;
 
 margin-bottom:12px;
 
-background:#fff;
+background:#ffffff;
 
 border:1px solid #cdbfae;
 
@@ -232,6 +244,7 @@ outline:none;
 .card{
 
 display:flex;
+
 gap:12px;
 
 padding:14px;
@@ -242,14 +255,16 @@ cursor:pointer;
 
 border-radius:10px;
 
+/* 木材板風 */
+
 background:
 
 linear-gradient(
 #ffffff,
-#f4efe8
+#f2ece3
 );
 
-border:1px solid #d6cabb;
+border:1px solid #d1c4b0;
 
 transition:.2s;
 
@@ -261,13 +276,13 @@ transition:.2s;
 background:
 
 linear-gradient(
-#f7f1e9,
-#ece4d8
+#f7f1e8,
+#e8dfd2
 );
 
 box-shadow:
 
-0 10px 20px rgba(0,0,0,.15);
+0 10px 25px rgba(0,0,0,.25);
 
 }
 
@@ -368,16 +383,21 @@ left:0;
 width:100%;
 height:100%;
 
-/* 暗い木目 */
+/* 深い木目 */
 
 background:
 
+linear-gradient(
+#4c382a,
+#2e2219
+),
+
 repeating-linear-gradient(
 90deg,
-#4e3b2c,
-#4e3b2c 6px,
-#3f2f22 6px,
-#3f2f22 12px
+#3e2d22 0px,
+#3e2d22 3px,
+#2f231b 3px,
+#2f231b 6px
 );
 
 color:white;
@@ -455,7 +475,9 @@ background:#5f462f;
 /* スクロールバー */
 
 ::-webkit-scrollbar{
+
 width:8px;
+
 }
 
 ::-webkit-scrollbar-thumb{
