@@ -51,7 +51,6 @@ oninput="searchAll()">
 
 
 
-<!-- 商品説明大画面 -->
 <div id="modal" class="modal"></div>
 
 
@@ -94,7 +93,7 @@ const modal=document.getElementById("modal");
 
 
 
-/* カテゴリ表示 */
+/* カテゴリ表示（画像対応） */
 
 function renderCategories(){
 
@@ -106,15 +105,25 @@ const div=document.createElement("div");
 
 div.className="categoryBtn";
 
-div.textContent=c.name;
-
 div.onclick=()=>{
 
 currentCategory=c.name;
-
 renderProducts();
 
 };
+
+div.innerHTML=`
+
+<div style="display:flex;align-items:center;gap:10px">
+
+<img src="${c.img||""}"
+style="width:40px;height:40px;border-radius:6px">
+
+<span>${c.name}</span>
+
+</div>
+
+`;
 
 categoryList.appendChild(div);
 
@@ -216,7 +225,7 @@ productList.appendChild(div);
 
 
 
-/* 商品説明表示 */
+/* 説明表示 */
 
 function showDetail(p){
 
@@ -231,34 +240,21 @@ style="margin-bottom:20px;padding:10px 20px">
 
 </button>
 
-
-<h1>
-
-${p.name}
-
-</h1>
-
+<h1>${p.name}</h1>
 
 <div class="desc">
-
 ${p.desc||""}
-
 </div>
 
 `;
 
 if(p.image)
-
 html+=`<img src="${p.image}">`;
 
-
 if(p.video)
-
 html+=`<iframe src="${p.video}" allowfullscreen></iframe>`;
 
-
 html+=`</div>`;
-
 
 modal.innerHTML=html;
 
@@ -267,8 +263,6 @@ modal.style.display="block";
 }
 
 
-
-/* 閉じる */
 
 window.closeModal=function(){
 
@@ -299,4 +293,5 @@ products=s.docs.map(d=>d.data());
 </script>
 
 </body>
+
 </html>
