@@ -9,7 +9,6 @@
 <title>00001</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
-
 <link rel="stylesheet" href="style.css">
 
 </head>
@@ -51,6 +50,7 @@ oninput="searchAll()">
 
 
 
+<!-- 商品説明：PC/スマホ共通で別窓（大画面） -->
 <div id="modal" class="modal"></div>
 
 
@@ -92,9 +92,14 @@ const productList=document.getElementById("productList");
 const modal=document.getElementById("modal");
 
 
+function getCategoryImage(c){
+
+return c.img || c.image || c.icon || c.thumbnail || "";
+
+}
+
 
 /* カテゴリ表示（画像対応） */
-
 function renderCategories(){
 
 categoryList.innerHTML="";
@@ -102,7 +107,6 @@ categoryList.innerHTML="";
 categories.forEach(c=>{
 
 const div=document.createElement("div");
-
 div.className="categoryBtn";
 
 div.onclick=()=>{
@@ -112,12 +116,14 @@ renderProducts();
 
 };
 
+const img=getCategoryImage(c);
+
 div.innerHTML=`
 
 <div style="display:flex;align-items:center;gap:10px">
 
-<img src="${c.img||""}"
-style="width:40px;height:40px;border-radius:6px">
+<img src="${img}"
+onerror="this.style.display='none'">
 
 <span>${c.name}</span>
 
@@ -132,33 +138,24 @@ categoryList.appendChild(div);
 }
 
 
-
-/* 商品表示 */
-
+/* 商品表示（一覧はタイトルだけ） */
 function renderProducts(){
 
 productList.innerHTML="";
 
 products
 .filter(p=>p.category===currentCategory)
-
 .forEach(p=>{
 
 const div=document.createElement("div");
-
 div.className="card";
-
 div.onclick=()=>showDetail(p);
 
 div.innerHTML=`
 
-<img src="${p.image||""}">
+<img src="${p.image||""}" onerror="this.style.display='none'">
 
-<div class="title">
-
-${p.name}
-
-</div>
+<div class="title">${p.name}</div>
 
 `;
 
@@ -169,9 +166,7 @@ productList.appendChild(div);
 }
 
 
-
 /* 検索 */
-
 window.searchAll=function(){
 
 const q=document
@@ -179,41 +174,27 @@ const q=document
 .value
 .toLowerCase();
 
-
 productList.innerHTML="";
 
-
 products
-
 .filter(p=>
 
 p.category===currentCategory
-
 &&
-
-(p.name||"")
-.toLowerCase()
-.includes(q)
+(p.name||"").toLowerCase().includes(q)
 
 )
-
 .forEach(p=>{
 
 const div=document.createElement("div");
-
 div.className="card";
-
 div.onclick=()=>showDetail(p);
 
 div.innerHTML=`
 
-<img src="${p.image||""}">
+<img src="${p.image||""}" onerror="this.style.display='none'">
 
-<div class="title">
-
-${p.name}
-
-</div>
+<div class="title">${p.name}</div>
 
 `;
 
@@ -224,74 +205,54 @@ productList.appendChild(div);
 }
 
 
-
-/* 説明表示 */
-
+/* 説明表示（PCもスマホも必ず別窓） */
 function showDetail(p){
 
 let html=`
 
-<div style="max-width:900px;margin:auto">
+<div class="modalInner">
 
-<button onclick="closeModal()"
-style="margin-bottom:20px;padding:10px 20px">
-
-閉じる
-
-</button>
+<button class="closeBtn" onclick="closeModal()">閉じる</button>
 
 <h1>${p.name}</h1>
 
-<div class="desc">
-${p.desc||""}
-</div>
+<div class="desc">${p.desc||""}</div>
 
 `;
 
-if(p.image)
+if(p.image){
 html+=`<img src="${p.image}">`;
+}
 
-if(p.video)
+if(p.video){
 html+=`<iframe src="${p.video}" allowfullscreen></iframe>`;
+}
 
 html+=`</div>`;
 
 modal.innerHTML=html;
-
 modal.style.display="block";
 
 }
 
 
-
+/* 閉じる */
 window.closeModal=function(){
-
 modal.style.display="none";
-
-}
-
+};
 
 
 /* Firebase */
-
 onSnapshot(collection(db,"categories"),s=>{
-
 categories=s.docs.map(d=>d.data());
-
 renderCategories();
-
 });
-
 
 onSnapshot(collection(db,"products"),s=>{
-
 products=s.docs.map(d=>d.data());
-
 });
-
 
 </script>
 
 </body>
-
 </html>
