@@ -8,84 +8,35 @@
 
 <title>00001</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
-
-
 <style>
 
-*{box-sizing:border-box;margin:0;padding:0;}
-
 body{
-
-font-family:"Noto Sans JP";
-
-color:#eafaff;
-
-background:
-linear-gradient(120deg,#020617,#000814,#001020,#020617);
-
-background-size:400% 400%;
-animation:bgmove 25s ease infinite;
-
-}
-
-@keyframes bgmove{
-
-0%{background-position:0% 50%;}
-50%{background-position:100% 50%;}
-100%{background-position:0% 50%;}
-
+margin:0;
+font-family:sans-serif;
+background:#000814;
+color:white;
 }
 
 .header{
-
-position:fixed;
-top:0;
-left:0;
-right:0;
-
 height:60px;
-
 display:flex;
 align-items:center;
 justify-content:center;
-
-background:#000;
-
-border-bottom:1px solid #00eaff55;
-
-}
-
-.logoText{
-
-font-size:20px;
-font-weight:bold;
-
-background:linear-gradient(90deg,#00eaff,#00ff9d);
--webkit-background-clip:text;
-color:transparent;
-
+background:black;
 }
 
 .container{
-
 max-width:1200px;
-margin:70px auto 0;
-padding:10px;
-
+margin:auto;
+margin-top:10px;
 display:flex;
-gap:15px;
-
+gap:10px;
 }
 
 .panel{
-
-background:#000814;
-padding:15px;
+background:#020617;
+padding:10px;
 border-radius:10px;
-
-border:1px solid #00eaff33;
-
 }
 
 .categories{width:250px;}
@@ -93,146 +44,37 @@ border:1px solid #00eaff33;
 .detail{flex:1;}
 
 .categoryBtn{
-
 padding:10px;
-margin-bottom:6px;
-
+margin-bottom:5px;
 cursor:pointer;
-
-background:#020617;
-
-border-radius:8px;
-
-border:1px solid #00eaff33;
-
-}
-
-.categoryBtn:hover{
-
 background:#001020;
-
-box-shadow:0 0 15px #00eaff;
-
-}
-
-#searchBox{
-
-width:100%;
-padding:10px;
-margin-bottom:10px;
-
-background:#000;
-
-color:#00eaff;
-
-border:1px solid #00eaff55;
-
-border-radius:8px;
-
+border-radius:6px;
 }
 
 .card{
-
 display:flex;
 gap:10px;
-
 padding:10px;
-
 margin-bottom:10px;
-
 cursor:pointer;
-
-border-radius:8px;
-
-background:#020617;
-
-border:1px solid #00eaff33;
-
-}
-
-.card:hover{
-
-box-shadow:0 0 20px #00eaff;
-
-}
-
-.card img{
-
-width:80px;
-height:80px;
-
-object-fit:cover;
-
-border-radius:8px;
-
-}
-
-.title{
-
-font-weight:bold;
-
+background:#001020;
+border-radius:6px;
 }
 
 .desc{
-
 white-space:pre-line;
-font-size:14px;
-
-}
-
-.detail img{
-
-width:100%;
-border-radius:10px;
-
-margin-top:10px;
-
-}
-
-iframe{
-
-width:100%;
-height:300px;
-
-margin-top:10px;
-
-border:none;
-
 }
 
 .modal{
-
 position:fixed;
 top:0;
 left:0;
-
 width:100%;
 height:100%;
-
-background:#000;
-
+background:black;
+display:none;
 padding:20px;
-
-display:none;
-
 overflow:auto;
-
-}
-
-@media(max-width:700px){
-
-.container{
-flex-direction:column;
-}
-
-.categories,.products{
-width:100%;
-}
-
-.detail{
-display:none;
-}
-
 }
 
 </style>
@@ -241,17 +83,15 @@ display:none;
 
 <body>
 
+
 <div class="header">
-<div class="logoText">00001</div>
+00001
 </div>
 
 
 <div class="container">
 
-
 <div class="panel categories">
-
-<h3>カテゴリ</h3>
 
 <div id="categoryList"></div>
 
@@ -273,18 +113,16 @@ oninput="searchAll()">
 
 <div id="productDetail">
 
-商品を選択
+商品選択
 
 </div>
 
 </div>
-
 
 </div>
 
 
 <div id="mobileModal" class="modal"></div>
-
 
 
 <script type="module">
@@ -294,9 +132,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
 import {
 getFirestore,
 collection,
-onSnapshot,
-query,
-orderBy
+onSnapshot
 }
 
 from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
@@ -340,7 +176,8 @@ div.textContent=c.name;
 
 div.onclick=()=>{
 
-currentCategory=c.id || c.name;
+currentCategory=c.name;
+
 renderProducts();
 
 };
@@ -358,18 +195,11 @@ function renderProducts(){
 productList.innerHTML="";
 
 products
-
 .filter(p=>
 
-!currentCategory
-
-||
+!currentCategory ||
 
 p.category===currentCategory
-
-||
-
-p.categoryName===currentCategory
 
 )
 
@@ -383,11 +213,9 @@ div.onclick=()=>showDetail(p);
 
 div.innerHTML=`
 
-<img src="${p.img||""}">
-
 <div>
 
-<div class="title">${p.name}</div>
+<b>${p.name}</b>
 
 <div class="desc">${p.desc||""}</div>
 
@@ -413,20 +241,18 @@ const q=document
 
 productList.innerHTML="";
 
-
 products
-
 .filter(p=>
 
-(!currentCategory||
+(!currentCategory ||
 
-p.category===currentCategory||
-
-p.categoryName===currentCategory)
+p.category===currentCategory)
 
 &&
 
-(p.name||"").toLowerCase().includes(q)
+(p.name||"")
+.toLowerCase()
+.includes(q)
 
 )
 
@@ -440,11 +266,9 @@ div.onclick=()=>showDetail(p);
 
 div.innerHTML=`
 
-<img src="${p.img||""}">
-
 <div>
 
-<div class="title">${p.name}</div>
+<b>${p.name}</b>
 
 <div class="desc">${p.desc||""}</div>
 
@@ -470,13 +294,11 @@ let html=`
 
 `;
 
-
-if(p.img)
-html+=`<img src="${p.img}">`;
-
+if(p.image)
+html+=`<img src="${p.image}" width="100%">`;
 
 if(p.video)
-html+=`<iframe src="${p.video}" allowfullscreen></iframe>`;
+html+=`<iframe src="${p.video}" width="100%" height="300"></iframe>`;
 
 
 if(window.innerWidth<700){
@@ -494,20 +316,15 @@ detail.innerHTML=html;
 
 
 
-const q1=query(collection(db,"categories"),orderBy("order"));
+onSnapshot(collection(db,"categories"),s=>{
 
-const q2=query(collection(db,"products"),orderBy("order"));
-
-
-onSnapshot(q1,s=>{
-
-categories=s.docs.map(d=>({id:d.id,...d.data()}));
+categories=s.docs.map(d=>d.data());
 renderCategories();
 
 });
 
 
-onSnapshot(q2,s=>{
+onSnapshot(collection(db,"products"),s=>{
 
 products=s.docs.map(d=>d.data());
 renderProducts();
