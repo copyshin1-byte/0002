@@ -35,6 +35,9 @@ min-height:100vh;
 
 }
 
+
+/* ヘッダー */
+
 .header{
 
 position:fixed;
@@ -58,6 +61,7 @@ z-index:100;
 
 }
 
+
 .logoText{
 
 font-size:22px;
@@ -71,15 +75,24 @@ color:transparent;
 
 }
 
+
+
+/* レイアウト */
+
 .container{
 
 max-width:1400px;
 margin:80px auto;
 padding:15px;
+
 display:flex;
 gap:20px;
 
 }
+
+
+
+/* パネル */
 
 .panel{
 
@@ -95,15 +108,23 @@ overflow:hidden;
 
 }
 
+
 .panel::before{
 
 content:"";
+
 position:absolute;
+
 inset:-2px;
 
 background:
 
-linear-gradient(60deg,#00eaff,#00ff9d,#00eaff);
+linear-gradient(
+60deg,
+#00eaff,
+#00ff9d,
+#00eaff
+);
 
 background-size:300%;
 
@@ -115,9 +136,23 @@ z-index:-1;
 
 }
 
+
+@keyframes neonMove{
+
+0%{background-position:0%;}
+100%{background-position:300%;}
+
+}
+
+
+
 .categories{width:250px;}
 .products{width:420px;}
 .detail{flex:1;}
+
+
+
+/* カテゴリ */
 
 .categoryBtn{
 
@@ -132,28 +167,47 @@ background:#020617;
 
 border:1px solid #00eaff33;
 
+display:flex;
+align-items:center;
+gap:10px;
+
 }
+
 
 .categoryBtn:hover{
 
 background:#001020;
+
 box-shadow:0 0 20px #00eaff55;
 
 }
 
-/* カテゴリ画像の見た目 */
+
+/* カテゴリアイコンサイズ修正版 */
+
 .categoryBtn img{
+
 width:40px;
 height:40px;
+
 border-radius:8px;
+
 object-fit:cover;
+
 border:1px solid #00eaff44;
+
 flex:0 0 auto;
+
 }
+
+
+
+/* 検索 */
 
 #searchBox{
 
 width:100%;
+
 padding:12px;
 
 margin-bottom:12px;
@@ -168,10 +222,15 @@ border-radius:10px;
 
 }
 
+
+
+/* 商品カード */
+
 .card{
 
 display:flex;
 gap:12px;
+
 padding:14px;
 
 margin-bottom:12px;
@@ -181,22 +240,34 @@ cursor:pointer;
 border-radius:10px;
 
 background:
-linear-gradient(180deg,#001020,#000814);
+linear-gradient(
+180deg,
+#001020,
+#000814
+);
 
 border:1px solid #00eaff33;
 
 }
 
+
 .card:hover{
 
 background:
-linear-gradient(180deg,#002030,#001020);
+linear-gradient(
+180deg,
+#002030,
+#001020
+);
 
 border:1px solid #00eaff;
 
-box-shadow:0 0 30px #00eaff55;
+box-shadow:
+0 0 30px #00eaff55;
 
 }
+
+
 
 .card img{
 
@@ -211,6 +282,8 @@ border:1px solid #00eaff44;
 
 }
 
+
+
 .title{
 
 font-size:16px;
@@ -218,16 +291,36 @@ font-weight:bold;
 
 }
 
+
+
+/* 説明 */
+
 .desc{
 
 white-space:pre-line;
+
 line-height:1.7;
 
 }
 
+
+
+/* 詳細パネル */
+
+.detail{
+
+min-height:500px;
+
+}
+
+
+
+/* 詳細画像 */
+
 .detail img{
 
 width:100%;
+
 border-radius:10px;
 
 border:1px solid #00eaff44;
@@ -235,6 +328,10 @@ border:1px solid #00eaff44;
 margin-top:10px;
 
 }
+
+
+
+/* 動画 */
 
 .detail iframe{
 
@@ -249,10 +346,14 @@ border:1px solid #00eaff44;
 
 }
 
-/* ✅ ここが重要：PCでも別窓が動くように、modalは常に有効にする */
+
+
+/* モーダル（PCスマホ共通） */
+
 .modal{
 
 position:fixed;
+
 top:0;
 left:0;
 
@@ -261,7 +362,7 @@ height:100%;
 
 background:#000814;
 
-padding:20px;
+padding:25px;
 
 display:none;
 
@@ -271,55 +372,112 @@ z-index:9999;
 
 }
 
-.modal .modalInner{
-max-width:900px;
-margin:auto;
-}
 
 .modal img{
+
 width:100%;
+
 margin-top:10px;
+
 border-radius:10px;
+
 border:1px solid #00eaff44;
+
 }
+
 
 .modal iframe{
+
 width:100%;
+
 height:400px;
+
 margin-top:10px;
+
 border-radius:10px;
+
 border:1px solid #00eaff44;
+
 }
 
+
+
+/* 閉じるボタン */
+
 .closeBtn{
+
 margin-bottom:15px;
-padding:10px 16px;
+
+padding:10px 20px;
+
 border-radius:10px;
+
 border:1px solid #00eaff55;
+
 background:#000;
+
 color:#00eaff;
+
 cursor:pointer;
+
 }
+
+
+
+/* スクロールバー */
+
+::-webkit-scrollbar{
+
+width:8px;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+background:#00eaff;
+
+border-radius:10px;
+
+}
+
+
+
+/* スマホ */
 
 @media(max-width:700px){
 
 .container{
+
 flex-direction:column;
+
 margin-top:70px;
+
 }
+
 
 .categories,
 .products{
+
 width:100%;
+
 }
+
+
+/* PC用説明は非表示 */
 
 .detail{
+
 display:none;
+
 }
 
-/* スマホは動画の高さだけ少し短く */
+
+/* 動画高さ */
+
 .modal iframe{
+
 height:250px;
+
 }
 
 }
