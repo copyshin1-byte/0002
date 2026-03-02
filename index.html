@@ -8,73 +8,286 @@
 
 <title>00001</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
+
+
 <style>
 
-body{
+*{
+box-sizing:border-box;
 margin:0;
-font-family:sans-serif;
-background:#000814;
-color:white;
+padding:0;
 }
+
+body{
+
+font-family:"Noto Sans JP",sans-serif;
+
+color:#eafaff;
+
+background:
+linear-gradient(
+120deg,
+#020617,
+#000814,
+#001020,
+#020617
+);
+
+background-size:400% 400%;
+
+animation:bgmove 25s ease infinite;
+
+min-height:100vh;
+
+}
+
+@keyframes bgmove{
+
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+
+}
+
+/* Header */
 
 .header{
-height:60px;
-display:flex;
-align-items:center;
-justify-content:center;
-background:black;
-}
 
-.container{
-max-width:1200px;
-margin:auto;
-margin-top:10px;
-display:flex;
-gap:10px;
-}
-
-.panel{
-background:#020617;
-padding:10px;
-border-radius:10px;
-}
-
-.categories{width:250px;}
-.products{width:400px;}
-.detail{flex:1;}
-
-.categoryBtn{
-padding:10px;
-margin-bottom:5px;
-cursor:pointer;
-background:#001020;
-border-radius:6px;
-}
-
-.card{
-display:flex;
-gap:10px;
-padding:10px;
-margin-bottom:10px;
-cursor:pointer;
-background:#001020;
-border-radius:6px;
-}
-
-.desc{
-white-space:pre-line;
-}
-
-.modal{
 position:fixed;
 top:0;
 left:0;
+right:0;
+
+height:65px;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+background:#000;
+
+border-bottom:1px solid #00eaff55;
+
+box-shadow:0 0 40px #00eaff33;
+
+z-index:100;
+
+}
+
+.logoText{
+
+font-size:22px;
+font-weight:bold;
+
+background:linear-gradient(90deg,#00eaff,#00ff9d);
+-webkit-background-clip:text;
+color:transparent;
+
+}
+
+/* Layout */
+
+.container{
+
+max-width:1400px;
+margin:80px auto;
+padding:15px;
+display:flex;
+gap:20px;
+
+}
+
+/* Panels */
+
+.panel{
+
+position:relative;
+background:rgba(0,0,0,.85);
+border-radius:16px;
+padding:16px;
+overflow:hidden;
+
+}
+
+.panel::before{
+
+content:"";
+position:absolute;
+inset:-2px;
+
+background:
+linear-gradient(60deg,#00eaff,#00ff9d,#00eaff);
+
+background-size:300%;
+
+animation:neonMove 6s linear infinite;
+
+filter:blur(8px);
+z-index:-1;
+
+}
+
+@keyframes neonMove{
+
+0%{background-position:0%;}
+100%{background-position:300%;}
+
+}
+
+.categories{width:250px;}
+.products{width:420px;}
+.detail{flex:1;}
+
+/* Category */
+
+.categoryBtn{
+
+padding:12px;
+margin:6px 0;
+
+cursor:pointer;
+
+border-radius:10px;
+
+background:#020617;
+
+border:1px solid #00eaff33;
+
+}
+
+.categoryBtn:hover{
+
+background:#001020;
+box-shadow:0 0 20px #00eaff55;
+
+}
+
+/* Search */
+
+#searchBox{
+
 width:100%;
-height:100%;
-background:black;
+padding:12px;
+
+margin-bottom:12px;
+
+background:#000;
+
+border:1px solid #00eaff55;
+
+color:#00eaff;
+
+border-radius:10px;
+
+}
+
+/* Card */
+
+.card{
+
+position:relative;
+display:flex;
+gap:12px;
+padding:14px;
+
+margin-bottom:12px;
+
+cursor:pointer;
+
+border-radius:10px;
+
+background:
+linear-gradient(180deg,#001020,#000814);
+
+border:1px solid #00eaff33;
+
+overflow:hidden;
+
+}
+
+.card:hover{
+
+background:
+linear-gradient(180deg,#002030,#001020);
+
+border:1px solid #00eaff;
+
+box-shadow:0 0 30px #00eaff55;
+
+}
+
+.card img{
+
+width:90px;
+height:90px;
+
+border-radius:8px;
+
+object-fit:cover;
+
+border:1px solid #00eaff44;
+
+}
+
+.title{
+
+font-size:16px;
+font-weight:bold;
+
+}
+
+.desc{
+
+white-space:pre-line;
+line-height:1.7;
+
+}
+
+/* Detail */
+
+.detail img{
+
+width:100%;
+border-radius:10px;
+
+border:1px solid #00eaff44;
+
+margin-top:10px;
+
+}
+
+.detail iframe{
+
+width:100%;
+height:320px;
+
+margin-top:10px;
+
+border-radius:10px;
+
+border:1px solid #00eaff44;
+
+}
+
+/* Mobile */
+
+@media(max-width:700px){
+
+.container{
+flex-direction:column;
+margin-top:70px;
+}
+
+.categories,
+.products{
+width:100%;
+}
+
+.detail{
 display:none;
-padding:20px;
-overflow:auto;
+}
+
 }
 
 </style>
@@ -85,17 +298,22 @@ overflow:auto;
 
 
 <div class="header">
-00001
+<div class="logoText">00001</div>
 </div>
+
 
 
 <div class="container">
 
+
 <div class="panel categories">
+
+<h3>カテゴリ</h3>
 
 <div id="categoryList"></div>
 
 </div>
+
 
 
 <div class="panel products">
@@ -109,20 +327,23 @@ oninput="searchAll()">
 </div>
 
 
+
 <div class="panel detail">
+
+<h3>商品説明</h3>
 
 <div id="productDetail">
 
-商品選択
+カテゴリを選択してください
 
 </div>
 
 </div>
 
+
 </div>
 
 
-<div id="mobileModal" class="modal"></div>
 
 
 <script type="module">
@@ -159,7 +380,6 @@ let currentCategory=null;
 const categoryList=document.getElementById("categoryList");
 const productList=document.getElementById("productList");
 const detail=document.getElementById("productDetail");
-const modal=document.getElementById("mobileModal");
 
 
 function renderCategories(){
@@ -189,19 +409,13 @@ categoryList.appendChild(div);
 }
 
 
-
 function renderProducts(){
 
 productList.innerHTML="";
 
 products
-.filter(p=>
 
-!currentCategory ||
-
-p.category===currentCategory
-
-)
+.filter(p=>p.category===currentCategory)
 
 .forEach(p=>{
 
@@ -213,9 +427,11 @@ div.onclick=()=>showDetail(p);
 
 div.innerHTML=`
 
+<img src="${p.image||""}">
+
 <div>
 
-<b>${p.name}</b>
+<div class="title">${p.name}</div>
 
 <div class="desc">${p.desc||""}</div>
 
@@ -228,7 +444,6 @@ productList.appendChild(div);
 });
 
 }
-
 
 
 window.searchAll=function(){
@@ -241,18 +456,14 @@ const q=document
 
 productList.innerHTML="";
 
+
 products
+
 .filter(p=>
 
-(!currentCategory ||
-
-p.category===currentCategory)
-
+p.category===currentCategory
 &&
-
-(p.name||"")
-.toLowerCase()
-.includes(q)
+(p.name||"").toLowerCase().includes(q)
 
 )
 
@@ -266,9 +477,11 @@ div.onclick=()=>showDetail(p);
 
 div.innerHTML=`
 
+<img src="${p.image||""}">
+
 <div>
 
-<b>${p.name}</b>
+<div class="title">${p.name}</div>
 
 <div class="desc">${p.desc||""}</div>
 
@@ -281,7 +494,6 @@ productList.appendChild(div);
 });
 
 }
-
 
 
 function showDetail(p){
@@ -295,25 +507,15 @@ let html=`
 `;
 
 if(p.image)
-html+=`<img src="${p.image}" width="100%">`;
+html+=`<img src="${p.image}">`;
 
 if(p.video)
-html+=`<iframe src="${p.video}" width="100%" height="300"></iframe>`;
+html+=`<iframe src="${p.video}" allowfullscreen></iframe>`;
 
-
-if(window.innerWidth<700){
-
-modal.style.display="block";
-modal.innerHTML=html;
-
-}else{
 
 detail.innerHTML=html;
 
 }
-
-}
-
 
 
 onSnapshot(collection(db,"categories"),s=>{
@@ -327,7 +529,6 @@ renderCategories();
 onSnapshot(collection(db,"products"),s=>{
 
 products=s.docs.map(d=>d.data());
-renderProducts();
 
 });
 
