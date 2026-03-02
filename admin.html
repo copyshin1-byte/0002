@@ -6,7 +6,14 @@
 <title>管理画面</title>
 
 <style>
-body{margin:0;font-family:system-ui;background:#0b0f16;color:#fff;padding:20px;}
+
+body{
+margin:0;
+font-family:system-ui;
+background:#0b0f16;
+color:#fff;
+padding:20px;
+}
 
 button{
 margin:4px 2px;
@@ -45,9 +52,11 @@ border-radius:6px;
 margin-top:8px;
 cursor:pointer;
 }
+
 </style>
 
 </head>
+
 <body>
 
 <h2>管理画面</h2>
@@ -58,6 +67,7 @@ cursor:pointer;
 <div id="mainPanel" style="display:none;">
 
 <div class="panel">
+
 <h3>商品追加</h3>
 
 <select id="productCategory"></select>
@@ -134,17 +144,18 @@ onSnapshot,
 query,
 orderBy
 }
-
 from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBuntfW8chPksWc8xCMVw9LFdqhmbe8Dps",
-  authDomain: "project-1903050700199799038.firebaseapp.com",
-  projectId: "project-1903050700199799038",
-  storageBucket: "project-1903050700199799038.firebasestorage.app",
-  messagingSenderId: "338189734914",
-  appId: "1:338189734914:web:01997c9526952de07e031b"
+
+apiKey: "AIzaSyBuntfW8chPksWc8xCMVw9LFdqhmbe8Dps",
+authDomain: "project-1903050700199799038.firebaseapp.com",
+projectId: "project-1903050700199799038",
+storageBucket: "project-1903050700199799038.firebasestorage.app",
+messagingSenderId: "338189734914",
+appId: "1:338189734914:web:01997c9526952de07e031b"
+
 };
 
 const app=initializeApp(firebaseConfig);
@@ -173,7 +184,9 @@ return url;
 
 
 const ADMIN_PASSWORD="mdmd9696";
+
 const LOGIN_KEY="admin_login_time";
+
 const LOGIN_DURATION=24*60*60*1000;
 
 
@@ -191,9 +204,12 @@ const mainPanel=document.getElementById("mainPanel");
 
 
 window.saveFont=function(){
+
 localStorage.setItem("siteFont",
 document.getElementById("fontSelect").value);
+
 alert("保存しました");
+
 }
 
 
@@ -214,6 +230,7 @@ window.login=function(){
 if(prompt("パスワード")==ADMIN_PASSWORD){
 
 localStorage.setItem(LOGIN_KEY,Date.now());
+
 mainPanel.style.display="block";
 
 }
@@ -225,6 +242,7 @@ mainPanel.style.display="block";
 window.logout=function(){
 
 localStorage.removeItem(LOGIN_KEY);
+
 location.reload();
 
 }
@@ -290,7 +308,7 @@ pVideo.value="";
 
 /* 商品削除 */
 
-window.deleteProduct=id=>{
+window.deleteProduct=function(id){
 
 if(confirm("削除しますか"))
 deleteDoc(doc(db,"products",id))
@@ -299,31 +317,71 @@ deleteDoc(doc(db,"products",id))
 
 
 
-/* カテゴリ削除（商品削除選択付き） */
+/* 商品編集 */
+
+window.editProduct=async function(p){
+
+const name=prompt("商品名",p.name);
+if(name===null)return;
+
+await updateDoc(doc(db,"products",p.id),{
+
+name,
+desc:prompt("説明",p.desc),
+
+image:normalizeYoutube(prompt("画像URL",p.image)),
+
+video:normalizeYoutube(prompt("動画URL",p.video||"")),
+
+tag:prompt("タグ",p.tag||""),
+
+updatedAt:Date.now()
+
+});
+
+}
+
+
+
+/* 商品上へ */
+
+window.moveProductUp=async function(id){
+
+const s=[...products].sort((a,b)=>a.order-b.order);
+
+const i=s.findIndex(p=>p.id===id);
+
+if(i<=0)return;
+
+await updateDoc(doc(db,"products",s[i].id),{order:s[i-1].order});
+await updateDoc(doc(db,"products",s[i-1].id),{order:s[i].order});
+
+}
+
+
+
+/* 商品下へ */
+
+window.moveProductDown=async function(id){
+
+const s=[...products].sort((a,b)=>a.order-b.order);
+
+const i=s.findIndex(p=>p.id===id);
+
+if(i>=s.length-1)return;
+
+await updateDoc(doc(db,"products",s[i].id),{order:s[i+1].order});
+await updateDoc(doc(db,"products",s[i+1].id),{order:s[i].order});
+
+}
+
+
+
+/* カテゴリ削除 */
 
 window.deleteCategory=async function(id){
 
 if(!confirm("カテゴリ削除しますか？")) return;
-
-const deleteProductsToo=
-confirm("このカテゴリ内の商品も削除しますか？");
-
-if(deleteProductsToo){
-
-const cat=categories.find(c=>c.id===id);
-
-if(cat){
-
-const targetProducts=
-products.filter(p=>p.category===cat.name);
-
-for(const p of targetProducts){
-await deleteDoc(doc(db,"products",p.id));
-}
-
-}
-
-}
 
 await deleteDoc(doc(db,"categories",id));
 
@@ -331,18 +389,15 @@ await deleteDoc(doc(db,"categories",id));
 
 
 
-/* ★カテゴリ編集（商品カテゴリも変更） */
+/* カテゴリ編集 */
 
 window.editCategory=async function(cat){
 
-const oldName=cat.name;
-
 const name=prompt("カテゴリ名",cat.name);
+
 if(name===null)return;
 
 const image=prompt("画像URL",cat.image||"");
-
-/* カテゴリ更新 */
 
 await updateDoc(doc(db,"categories",cat.id),{
 
@@ -352,25 +407,11 @@ updatedAt:Date.now()
 
 });
 
-
-/* 商品カテゴリ名更新 */
-
-const targetProducts=
-products.filter(p=>p.category===oldName);
-
-for(const p of targetProducts){
-
-await updateDoc(doc(db,"products",p.id),{
-
-category:name
-
-});
-
-}
-
 }
 
 
+
+/* カテゴリ移動 */
 
 window.moveCategoryUp=async id=>{
 
@@ -384,7 +425,6 @@ await updateDoc(doc(db,"categories",s[i].id),{order:s[i-1].order});
 await updateDoc(doc(db,"categories",s[i-1].id),{order:s[i].order});
 
 }
-
 
 
 window.moveCategoryDown=async id=>{
@@ -405,11 +445,14 @@ await updateDoc(doc(db,"categories",s[i+1].id),{order:s[i].order});
 function toggleCategory(name){
 
 openCategories[name]=!openCategories[name];
+
 renderProducts();
 
 }
 
 
+
+/* Firebase監視 */
 
 onSnapshot(query(collection(db,"categories"),orderBy("order")),snap=>{
 
@@ -419,6 +462,7 @@ productCategory.innerHTML="";
 snap.forEach(d=>{
 
 const data={id:d.id,...d.data()};
+
 categories.push(data);
 
 const opt=document.createElement("option");
@@ -433,7 +477,6 @@ productCategory.appendChild(opt);
 renderProducts();
 
 });
-
 
 
 onSnapshot(query(collection(db,"products"),orderBy("order")),snap=>{
