@@ -61,6 +61,11 @@ oninput="searchAll()">
 
 
 
+<!-- スマホ用モーダル -->
+<div id="mobileModal" class="modal"></div>
+
+
+
 <script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
@@ -95,6 +100,7 @@ let currentCategory=null;
 const categoryList=document.getElementById("categoryList");
 const productList=document.getElementById("productList");
 const detail=document.getElementById("productDetail");
+const modal=document.getElementById("mobileModal");
 
 
 
@@ -208,6 +214,8 @@ function showDetail(p){
 
 let html=`
 
+<button onclick="closeModal()" style="margin-bottom:15px">閉じる</button>
+
 <h2>${p.name}</h2>
 
 <div class="desc">${p.desc||""}</div>
@@ -221,7 +229,29 @@ if(p.video)
 html+=`<iframe src="${p.video}" allowfullscreen></iframe>`;
 
 
+/* スマホ */
+
+if(window.innerWidth<700){
+
+modal.style.display="block";
+modal.innerHTML=html;
+
+}
+
+/* PC */
+
+else{
+
 detail.innerHTML=html;
+
+}
+
+}
+
+
+window.closeModal=function(){
+
+modal.style.display="none";
 
 }
 
