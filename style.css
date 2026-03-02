@@ -141,6 +141,16 @@ box-shadow:0 0 20px #00eaff55;
 
 }
 
+/* カテゴリ画像の見た目 */
+.categoryBtn img{
+width:40px;
+height:40px;
+border-radius:8px;
+object-fit:cover;
+border:1px solid #00eaff44;
+flex:0 0 auto;
+}
+
 #searchBox{
 
 width:100%;
@@ -239,22 +249,7 @@ border:1px solid #00eaff44;
 
 }
 
-@media(max-width:700px){
-
-.container{
-flex-direction:column;
-margin-top:70px;
-}
-
-.categories,
-.products{
-width:100%;
-}
-
-.detail{
-display:none;
-}
-
+/* ✅ ここが重要：PCでも別窓が動くように、modalは常に有効にする */
 .modal{
 
 position:fixed;
@@ -276,17 +271,55 @@ z-index:9999;
 
 }
 
-.modal img{
+.modal .modalInner{
+max-width:900px;
+margin:auto;
+}
 
+.modal img{
 width:100%;
 margin-top:10px;
-
+border-radius:10px;
+border:1px solid #00eaff44;
 }
 
 .modal iframe{
-
 width:100%;
-height:250px;
+height:400px;
 margin-top:10px;
+border-radius:10px;
+border:1px solid #00eaff44;
+}
+
+.closeBtn{
+margin-bottom:15px;
+padding:10px 16px;
+border-radius:10px;
+border:1px solid #00eaff55;
+background:#000;
+color:#00eaff;
+cursor:pointer;
+}
+
+@media(max-width:700px){
+
+.container{
+flex-direction:column;
+margin-top:70px;
+}
+
+.categories,
+.products{
+width:100%;
+}
+
+.detail{
+display:none;
+}
+
+/* スマホは動画の高さだけ少し短く */
+.modal iframe{
+height:250px;
+}
 
 }
