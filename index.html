@@ -2,82 +2,44 @@
 <html lang="ja">
 
 <head>
-
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-
 <title>00002</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
-
 <link rel="stylesheet" href="style.css">
-
 </head>
 
 <body>
-
 
 <div class="header">
 <div class="logoText">00002</div>
 </div>
 
-
-
 <div class="container">
 
-
 <div class="panel categories">
-
 <h3>カテゴリ</h3>
-
 <div id="categoryList"></div>
-
 </div>
-
-
 
 <div class="panel products">
-
-<input id="searchBox"
-placeholder="検索"
-oninput="searchAll()">
-
+<input id="searchBox" placeholder="検索" oninput="searchAll()">
 <div id="productList"></div>
-
 </div>
-
-
 
 <div class="panel detail">
-
 <h3>商品説明</h3>
-
 <div id="productDetail"></div>
-
 </div>
 
-
 </div>
-
-
 
 <div id="modal" class="modal"></div>
 
-
-
 <script type="module">
 
-import { initializeApp }
-from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-
-import {
-getFirestore,
-collection,
-onSnapshot
-}
-from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBuntfW8chPksWc8xCMVw9LFdqhmbe8Dps",
@@ -88,271 +50,147 @@ const firebaseConfig = {
   appId: "1:338189734914:web:01997c9526952de07e031b"
 };
 
-
-const app=initializeApp(firebaseConfig);
-const db=getFirestore(app);
-
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 let categories=[];
 let products=[];
 let currentCategory=null;
-
 
 const categoryList=document.getElementById("categoryList");
 const productList=document.getElementById("productList");
 const detail=document.getElementById("productDetail");
 const modal=document.getElementById("modal");
 
+/* 🔥 YouTube変換（内部処理のみ） */
 
-/* ================= YouTube変換（追加部分） ================= */
-
-function convertYoutube(url){
-
+function normalizeVideoUrl(url){
 if(!url) return "";
 
-let id = "";
+let id="";
 
 if(url.includes("youtu.be/")){
-  id = url.split("youtu.be/")[1].split("?")[0];
+  id=url.split("youtu.be/")[1].split("?")[0];
 }
 else if(url.includes("watch?v=")){
-  id = url.split("watch?v=")[1].split("&")[0];
+  id=url.split("watch?v=")[1].split("&")[0];
 }
 else if(url.includes("embed/")){
-  id = url.split("embed/")[1].split("?")[0];
+  id=url.split("embed/")[1].split("?")[0];
 }
 
-if(!id) return "";
+if(!id) return url;
 
-return "https://www.youtube.com/embed/" + id;
+return "https://www.youtube.com/embed/"+id;
 }
-
-/* ========================================================== */
-
 
 function getCategoryImage(c){
 return c.img || c.image || "";
 }
 
-
 /* カテゴリ */
 
 function renderCategories(){
-
 categoryList.innerHTML="";
-
 categories.forEach(c=>{
-
 const div=document.createElement("div");
-
 div.className="categoryBtn";
-
 div.onclick=()=>{
-
 currentCategory=c.name;
-
 renderProducts();
-
 detail.innerHTML="";
-
 };
-
 div.innerHTML=`
-
 <div style="display:flex;align-items:center;gap:10px">
-
-<img src="${getCategoryImage(c)}"
-onerror="this.style.display='none'">
-
+<img src="${getCategoryImage(c)}" onerror="this.style.display='none'">
 <span>${c.name}</span>
-
-</div>
-
-`;
-
+</div>`;
 categoryList.appendChild(div);
-
 });
-
 }
-
 
 /* 商品一覧 */
 
 function renderProducts(){
-
 productList.innerHTML="";
-
 products
 .filter(p=>p.category===currentCategory)
 .forEach(p=>{
-
 const div=document.createElement("div");
-
 div.className="card";
-
 div.onclick=()=>showDetail(p);
-
 div.innerHTML=`
-
-<img src="${p.image||""}"
-onerror="this.style.display='none'">
-
-<div class="title">
-
-${p.name}
-
-</div>
-
-`;
-
+<img src="${p.image||""}" onerror="this.style.display='none'">
+<div class="title">${p.name}</div>`;
 productList.appendChild(div);
-
 });
-
 }
-
 
 /* 検索 */
 
 window.searchAll=function(){
-
-const q=document
-.getElementById("searchBox")
-.value
-.toLowerCase();
-
-
+const q=document.getElementById("searchBox").value.toLowerCase();
 productList.innerHTML="";
-
-
 products
-
-.filter(p=>
-
-p.category===currentCategory
-
-&&
-
-(p.name||"")
-.toLowerCase()
-.includes(q)
-
-)
-
+.filter(p=>p.category===currentCategory &&
+(p.name||"").toLowerCase().includes(q))
 .forEach(p=>{
-
 const div=document.createElement("div");
-
 div.className="card";
-
 div.onclick=()=>showDetail(p);
-
 div.innerHTML=`
-
-<img src="${p.image||""}"
-onerror="this.style.display='none'">
-
-<div class="title">
-
-${p.name}
-
-</div>
-
-`;
-
+<img src="${p.image||""}" onerror="this.style.display='none'">
+<div class="title">${p.name}</div>`;
 productList.appendChild(div);
-
 });
-
 }
 
-
-/* 説明表示 */
+/* 説明表示（変更なし） */
 
 function showDetail(p){
 
+/* 🔥 表示前にだけ内部変換 */
+if(p.video){
+p.video = normalizeVideoUrl(p.video);
+}
+
 let html=`
-
 <h2>${p.name}</h2>
-
-<div class="desc">
-
-${p.desc||""}
-
-</div>
-
+<div class="desc">${p.desc||""}</div>
 `;
 
 if(p.image)
 html+=`<img src="${p.image}">`;
 
 if(p.video)
-html+=`
-<iframe 
-src="${convertYoutube(p.video)}"
-frameborder="0"
-allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-allowfullscreen>
-</iframe>`;
-
-
-/* PC */
+html+=`<iframe src="${p.video}" allowfullscreen></iframe>`;
 
 if(window.innerWidth>700){
-
 detail.innerHTML=html;
-
-}
-
-/* スマホ */
-
-else{
-
+}else{
 modal.innerHTML=`
-
-<button class="closeBtn"
-onclick="closeModal()">
-
-閉じる
-
-</button>
-
-${html}
-
-`;
-
+<button class="closeBtn" onclick="closeModal()">閉じる</button>
+${html}`;
 modal.style.display="block";
-
 }
-
 }
-
 
 window.closeModal=function(){
 modal.style.display="none";
 }
 
-
 /* Firebase */
 
 onSnapshot(collection(db,"categories"),s=>{
-
 categories=s.docs.map(d=>d.data());
 renderCategories();
-
 });
-
 
 onSnapshot(collection(db,"products"),s=>{
-
 products=s.docs.map(d=>d.data());
-
 });
-
 
 </script>
 
 </body>
-
 </html>
