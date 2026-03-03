@@ -48,8 +48,6 @@ display:flex;
 gap:20px;
 }
 
-/* ================= PANEL ================= */
-
 .panel{
 background:linear-gradient(180deg,#0a0f14,#05080c);
 border-radius:12px;
@@ -59,63 +57,9 @@ box-shadow:0 0 15px #000 inset,0 0 20px #000;
 transition:.2s;
 }
 
-.panel:hover{
-border:1px solid #ff880088;
-box-shadow:0 0 20px #000 inset,0 0 25px #ff880022;
-}
-
-/* ================= WIDTHS ================= */
-
 .categories{ width:230px; }
 .products{ width:420px; }
 .detail{ flex:1; }
-
-/* ================= CATEGORY ================= */
-
-.categoryBtn{
-padding:10px 14px;
-margin:6px 0;
-cursor:pointer;
-border-radius:8px;
-background:linear-gradient(#0f1620,#0a1118);
-border:1px solid #ff880033;
-display:flex;
-align-items:center;
-gap:10px;
-transition:.2s;
-}
-
-.categoryBtn:hover{
-border:1px solid #ff8800;
-box-shadow:0 0 15px #ff880055;
-transform:translateY(-1px);
-}
-
-.categoryBtn img{
-width:30px;
-height:30px;
-border-radius:6px;
-object-fit:cover;
-border:1px solid #ff880033;
-}
-
-/* ================= SEARCH ================= */
-
-#searchBox{
-width:100%;
-padding:10px;
-margin-bottom:12px;
-background:#000;
-border:1px solid #ff880044;
-color:#ff8800;
-border-radius:6px;
-outline:none;
-}
-
-#searchBox:focus{
-border:1px solid #ff8800;
-box-shadow:0 0 10px #ff880055;
-}
 
 /* ================= PRODUCT CARD ================= */
 
@@ -139,37 +83,12 @@ box-shadow:0 0 20px #ff880044;
 transform:translateY(-2px);
 }
 
-.card::before{
-content:"";
-position:absolute;
-top:0;
-left:-100%;
-width:100%;
-height:2px;
-background:linear-gradient(90deg,transparent,#ff8800,transparent);
-transition:.6s;
-}
-
-.card:hover::before{ left:100%; }
-
 .card img{
 width:90px;
 height:90px;
 border-radius:8px;
 object-fit:cover;
 border:1px solid #ff880044;
-}
-
-.title{
-font-size:16px;
-font-weight:700;
-letter-spacing:1px;
-}
-
-.desc{
-white-space:pre-line;
-line-height:1.7;
-opacity:.9;
 }
 
 /* ================= MODAL ================= */
@@ -187,85 +106,118 @@ overflow:auto;
 z-index:9999;
 }
 
-.modal img{
-width:100%;
-margin-top:20px;
-border-radius:10px;
-border:1px solid #ff880044;
-}
-
-.modal iframe{
-width:100%;
-height:420px;
-margin-top:20px;
-border-radius:10px;
-border:1px solid #ff880044;
-}
-
-.closeBtn{
-margin-bottom:20px;
-padding:10px 22px;
-border-radius:8px;
-border:none;
-background:#ff8800;
-color:black;
-cursor:pointer;
-font-weight:600;
-}
-
-.closeBtn:hover{ background:#ffaa33; }
-
 /* ================= MOBILE ================= */
 
 @media(max-width:700px){
 .container{ flex-direction:column; margin-top:70px; }
 .categories,.products{ width:100%; }
 .detail{ display:none; }
-.modal iframe{ height:250px; }
 }
 
 /* ===================================================== */
-/* ===== REAL CLOCKWORK GEAR BACKGROUND ===== */
+/* ===== INDIVIDUAL ROTATING GEARS ===== */
 /* ===================================================== */
 
-/* 奥の巨大レイヤー */
-
-body::before{
-content:"";
+.gear-layer{
 position:fixed;
-top:-10%;
-left:-10%;
-width:120%;
-height:120%;
-background:url("https://images.unsplash.com/photo-1526401485004-2aa7f3d2e4e0?q=80&w=2000") center/cover no-repeat;
-opacity:0.18;
-filter:grayscale(100%) contrast(120%);
-z-index:-3;
-animation:gearRotateSlow 180s linear infinite;
+inset:0;
+pointer-events:none;
+z-index:-5;
 }
 
-/* 手前レイヤー */
+/* 共通歯車デザイン */
 
-body::after{
+.gear{
+position:absolute;
+width:300px;
+height:300px;
+background:
+radial-gradient(circle at center,#666 30%,#333 60%,#111 100%);
+border-radius:50%;
+box-shadow:
+inset 0 0 40px #000,
+0 0 40px #000;
+}
+
+/* 歯 */
+
+.gear::before{
 content:"";
-position:fixed;
-top:-5%;
-left:-5%;
-width:110%;
-height:110%;
-background:url("https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2000") center/cover no-repeat;
-opacity:0.12;
-filter:grayscale(100%) contrast(140%);
-z-index:-2;
-animation:gearRotateReverse 120s linear infinite;
+position:absolute;
+inset:-25px;
+background:
+conic-gradient(
+#555 0deg 10deg,
+transparent 10deg 20deg
+);
+mask:radial-gradient(circle,transparent 120px,#000 121px);
 }
 
-@keyframes gearRotateSlow{
-0%{transform:rotate(0deg);}
-100%{transform:rotate(360deg);}
+/* 中心穴 */
+
+.gear::after{
+content:"";
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+width:80px;
+height:80px;
+background:#111;
+border-radius:50%;
+box-shadow:inset 0 0 20px #000;
 }
 
-@keyframes gearRotateReverse{
-0%{transform:rotate(0deg);}
-100%{transform:rotate(-360deg);}
+/* 個別配置・回転 */
+
+.gear1{
+top:10%;
+left:5%;
+animation:spin1 40s linear infinite;
+}
+
+.gear2{
+top:40%;
+left:70%;
+width:220px;
+height:220px;
+animation:spin2 25s linear infinite reverse;
+}
+
+.gear3{
+top:70%;
+left:30%;
+width:180px;
+height:180px;
+animation:spin3 18s linear infinite;
+}
+
+.gear4{
+top:20%;
+left:50%;
+width:400px;
+height:400px;
+opacity:.3;
+filter:blur(3px);
+animation:spin4 90s linear infinite;
+}
+
+@keyframes spin1{
+from{transform:rotate(0deg);}
+to{transform:rotate(360deg);}
+}
+
+@keyframes spin2{
+from{transform:rotate(0deg);}
+to{transform:rotate(-360deg);}
+}
+
+@keyframes spin3{
+from{transform:rotate(0deg);}
+to{transform:rotate(360deg);}
+}
+
+@keyframes spin4{
+from{transform:rotate(0deg);}
+to{transform:rotate(360deg);}
 }
