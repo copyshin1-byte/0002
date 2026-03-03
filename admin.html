@@ -25,6 +25,7 @@ input,textarea,select{width:100%;margin:6px 0;padding:6px;}
 <div id="mainPanel" style="display:none;">
 
 <div class="panel">
+
 <h3>商品追加</h3>
 
 <select id="productCategory"></select>
@@ -37,14 +38,20 @@ input,textarea,select{width:100%;margin:6px 0;padding:6px;}
 <button onclick="addProduct()">商品追加</button>
 
 <hr>
+
 <div id="productList"></div>
+
 </div>
 
 <div class="panel">
+
 <h3>カテゴリ追加</h3>
+
 <input id="catName">
 <input id="catImage" placeholder="カテゴリ画像URL">
+
 <button onclick="addCategory()">カテゴリ追加</button>
+
 </div>
 
 </div>
@@ -78,7 +85,7 @@ const productList=document.getElementById("productList");
 const productCategory=document.getElementById("productCategory");
 const mainPanel=document.getElementById("mainPanel");
 
-/* ===== メディア判定 ===== */
+/* ===== 判定 ===== */
 
 function isVideo(url){
 if(!url) return false;
@@ -120,7 +127,7 @@ catName.value="";
 catImage.value="";
 }
 
-/* ===== 商品追加（自動判定） ===== */
+/* ===== 商品追加 ===== */
 
 window.addProduct=async function(){
 
@@ -132,7 +139,6 @@ let video=pVideo.value.trim();
 
 if(!category||!name)return alert("必須項目不足");
 
-/* 画像欄に動画が入ったら動画へ移動 */
 if(isVideo(image)){
 video=image;
 image="";
@@ -150,32 +156,58 @@ pImage.value="";
 pVideo.value="";
 }
 
-/* ===== 商品削除 ===== */
+/* ===== 展開切替 ===== */
+
+function toggleCategory(name){
+openCategories[name]=!openCategories[name];
+renderProducts();
+}
+
+/* ===== 描画 ===== */
+
+function renderProducts(){
+
+productList.innerHTML="";
+
+categories.forEach(cat=>{
+
+const header=document.createElement("div");
+header.className="categoryHeader";
+header.innerHTML=`${openCategories[cat.name]?"▼":"▶"} ${cat.name}
+<button onclick="deleteCategory('${cat.id}')">削除</button>`;
+header.onclick=()=>toggleCategory(cat.name);
+productList.appendChild(header);
+
+if(!openCategories[cat.name]) return;
+
+products
+.filter(p=>p.category===cat.name)
+.forEach(p=>{
+const div=document.createElement("div");
+div.className="item";
+div.innerHTML=`
+${p.name}
+<button onclick="deleteProduct('${p.id}')">削除</button>
+`;
+productList.appendChild(div);
+});
+
+});
+}
+
+/* ===== 削除 ===== */
 
 window.deleteProduct=id=>{
 if(confirm("削除しますか"))
 deleteDoc(doc(db,"products",id))
 }
 
-/* ===== 並び替え ===== */
-
-window.moveProductUp=async id=>{
-const s=[...products].sort((a,b)=>a.order-b.order);
-const i=s.findIndex(p=>p.id===id);
-if(i<=0)return;
-await updateDoc(doc(db,"products",s[i].id),{order:s[i-1].order});
-await updateDoc(doc(db,"products",s[i-1].id),{order:s[i].order});
+window.deleteCategory=id=>{
+if(confirm("カテゴリ削除しますか"))
+deleteDoc(doc(db,"categories",id))
 }
 
-window.moveProductDown=async id=>{
-const s=[...products].sort((a,b)=>a.order-b.order);
-const i=s.findIndex(p=>p.id===id);
-if(i>=s.length-1)return;
-await updateDoc(doc(db,"products",s[i].id),{order:s[i+1].order});
-await updateDoc(doc(db,"products",s[i+1].id),{order:s[i].order});
-}
-
-/* ===== Firebase監視 ===== */
+/* ===== Firebase ===== */
 
 onSnapshot(query(collection(db,"categories"),orderBy("order")),snap=>{
 categories=[];
@@ -188,24 +220,15 @@ opt.value=data.name;
 opt.textContent=data.name;
 productCategory.appendChild(opt);
 });
+renderProducts();
 });
 
 onSnapshot(query(collection(db,"products"),orderBy("order")),snap=>{
 products=[];
-productList.innerHTML="";
 snap.forEach(d=>{
-const p={id:d.id,...d.data()};
-products.push(p);
-const div=document.createElement("div");
-div.className="item";
-div.innerHTML=`
-${p.name}
-<button onclick="moveProductUp('${p.id}')">▲</button>
-<button onclick="moveProductDown('${p.id}')">▼</button>
-<button onclick="deleteProduct('${p.id}')">削除</button>
-`;
-productList.appendChild(div);
+products.push({id:d.id,...d.data()});
 });
+renderProducts();
 });
 
 checkAutoLogin();
