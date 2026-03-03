@@ -25,7 +25,6 @@ input,textarea,select{width:100%;margin:6px 0;padding:6px;}
 <div id="mainPanel" style="display:none;">
 
 <div class="panel">
-
 <h3>商品追加</h3>
 
 <select id="productCategory"></select>
@@ -38,20 +37,14 @@ input,textarea,select{width:100%;margin:6px 0;padding:6px;}
 <button onclick="addProduct()">商品追加</button>
 
 <hr>
-
 <div id="productList"></div>
-
 </div>
 
 <div class="panel">
-
 <h3>カテゴリ追加</h3>
-
 <input id="catName">
 <input id="catImage" placeholder="カテゴリ画像URL">
-
 <button onclick="addCategory()">カテゴリ追加</button>
-
 </div>
 
 </div>
@@ -61,7 +54,7 @@ input,textarea,select{width:100%;margin:6px 0;padding:6px;}
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, collection, addDoc, deleteDoc, doc, updateDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-const firebaseConfig = {
+const firebaseConfig={
 apiKey:"AIzaSyBuntfW8chPksWc8xCMVw9LFdqhmbe8Dps",
 authDomain:"project-1903050700199799038.firebaseapp.com",
 projectId:"project-1903050700199799038",
@@ -89,8 +82,8 @@ const mainPanel=document.getElementById("mainPanel");
 
 function isVideo(url){
 if(!url) return false;
-return url.includes("youtu") ||
-url.includes("vimeo") ||
+return url.includes("youtu")||
+url.includes("vimeo")||
 url.match(/\.(mp4|webm|ogg)$/i);
 }
 
@@ -156,42 +149,68 @@ pImage.value="";
 pVideo.value="";
 }
 
-/* ===== 展開切替 ===== */
+/* ===== 展開 ===== */
 
 function toggleCategory(name){
 openCategories[name]=!openCategories[name];
 renderProducts();
 }
 
-/* ===== 描画 ===== */
+/* ===== 並び替え ===== */
 
-function renderProducts(){
+window.moveCategoryUp=async id=>{
+const s=[...categories].sort((a,b)=>a.order-b.order);
+const i=s.findIndex(c=>c.id===id);
+if(i<=0)return;
+await updateDoc(doc(db,"categories",s[i].id),{order:s[i-1].order});
+await updateDoc(doc(db,"categories",s[i-1].id),{order:s[i].order});
+}
 
-productList.innerHTML="";
+window.moveCategoryDown=async id=>{
+const s=[...categories].sort((a,b)=>a.order-b.order);
+const i=s.findIndex(c=>c.id===id);
+if(i>=s.length-1)return;
+await updateDoc(doc(db,"categories",s[i].id),{order:s[i+1].order});
+await updateDoc(doc(db,"categories",s[i+1].id),{order:s[i].order});
+}
 
-categories.forEach(cat=>{
+window.moveProductUp=async id=>{
+const s=[...products].sort((a,b)=>a.order-b.order);
+const i=s.findIndex(p=>p.id===id);
+if(i<=0)return;
+await updateDoc(doc(db,"products",s[i].id),{order:s[i-1].order});
+await updateDoc(doc(db,"products",s[i-1].id),{order:s[i].order});
+}
 
-const header=document.createElement("div");
-header.className="categoryHeader";
-header.innerHTML=`${openCategories[cat.name]?"▼":"▶"} ${cat.name}
-<button onclick="deleteCategory('${cat.id}')">削除</button>`;
-header.onclick=()=>toggleCategory(cat.name);
-productList.appendChild(header);
+window.moveProductDown=async id=>{
+const s=[...products].sort((a,b)=>a.order-b.order);
+const i=s.findIndex(p=>p.id===id);
+if(i>=s.length-1)return;
+await updateDoc(doc(db,"products",s[i].id),{order:s[i+1].order});
+await updateDoc(doc(db,"products",s[i+1].id),{order:s[i].order});
+}
 
-if(!openCategories[cat.name]) return;
+/* ===== 編集 ===== */
 
-products
-.filter(p=>p.category===cat.name)
-.forEach(p=>{
-const div=document.createElement("div");
-div.className="item";
-div.innerHTML=`
-${p.name}
-<button onclick="deleteProduct('${p.id}')">削除</button>
-`;
-productList.appendChild(div);
+window.editProduct=async function(p){
+const name=prompt("商品名",p.name);
+if(name===null)return;
+await updateDoc(doc(db,"products",p.id),{
+name,
+desc:prompt("説明",p.desc||""),
+image:prompt("画像URL",p.image||""),
+video:prompt("動画URL",p.video||""),
+updatedAt:Date.now()
 });
+}
 
+window.editCategory=async function(cat){
+const name=prompt("カテゴリ名",cat.name);
+if(name===null)return;
+await updateDoc(doc(db,"categories",cat.id),{
+name,
+image:prompt("画像URL",cat.image||""),
+updatedAt:Date.now()
 });
 }
 
@@ -205,6 +224,45 @@ deleteDoc(doc(db,"products",id))
 window.deleteCategory=id=>{
 if(confirm("カテゴリ削除しますか"))
 deleteDoc(doc(db,"categories",id))
+}
+
+/* ===== 描画 ===== */
+
+function renderProducts(){
+
+productList.innerHTML="";
+
+categories.forEach(cat=>{
+
+const header=document.createElement("div");
+header.className="categoryHeader";
+header.innerHTML=`
+${openCategories[cat.name]?"▼":"▶"} ${cat.name}
+<button onclick="moveCategoryUp('${cat.id}')">▲</button>
+<button onclick="moveCategoryDown('${cat.id}')">▼</button>
+<button onclick='editCategory(${JSON.stringify(cat)})'>編集</button>
+<button onclick="deleteCategory('${cat.id}')">削除</button>
+`;
+header.onclick=()=>toggleCategory(cat.name);
+productList.appendChild(header);
+
+if(!openCategories[cat.name])return;
+
+products
+.filter(p=>p.category===cat.name)
+.forEach(p=>{
+const div=document.createElement("div");
+div.className="item";
+div.innerHTML=`
+${p.name}
+<button onclick="moveProductUp('${p.id}')">▲</button>
+<button onclick="moveProductDown('${p.id}')">▼</button>
+<button onclick='editProduct(${JSON.stringify(p)})'>編集</button>
+<button onclick="deleteProduct('${p.id}')">削除</button>
+`;
+productList.appendChild(div);
+});
+});
 }
 
 /* ===== Firebase ===== */
