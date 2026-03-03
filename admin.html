@@ -25,29 +25,19 @@ input,textarea,select{width:100%;margin:6px 0;padding:6px;}
 <div id="mainPanel" style="display:none;">
 
 <div class="panel">
-
 <h3>商品追加</h3>
 
 <select id="productCategory"></select>
 
 <input id="pName" placeholder="商品名">
-<input id="pImage" placeholder="画像URL または YouTube URL">
-<input id="pVideo" placeholder="動画URL または YouTube URL">
-
+<input id="pImage" placeholder="画像URL または 動画URL">
+<input id="pVideo" placeholder="動画URL（任意）">
 <textarea id="pDesc" placeholder="説明"></textarea>
-
-<select id="pTag">
-<option value="">タグなし</option>
-<option value="人気">人気</option>
-<option value="更新">更新</option>
-</select>
 
 <button onclick="addProduct()">商品追加</button>
 
 <hr>
-
 <div id="productList"></div>
-
 </div>
 
 <div class="panel">
@@ -65,12 +55,12 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
 import { getFirestore, collection, addDoc, deleteDoc, doc, updateDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBuntfW8chPksWc8xCMVw9LFdqhmbe8Dps",
-  authDomain: "project-1903050700199799038.firebaseapp.com",
-  projectId: "project-1903050700199799038",
-  storageBucket: "project-1903050700199799038.firebasestorage.app",
-  messagingSenderId: "338189734914",
-  appId: "1:338189734914:web:01997c9526952de07e031b"
+apiKey:"AIzaSyBuntfW8chPksWc8xCMVw9LFdqhmbe8Dps",
+authDomain:"project-1903050700199799038.firebaseapp.com",
+projectId:"project-1903050700199799038",
+storageBucket:"project-1903050700199799038.firebasestorage.app",
+messagingSenderId:"338189734914",
+appId:"1:338189734914:web:01997c9526952de07e031b"
 };
 
 const app=initializeApp(firebaseConfig);
@@ -82,37 +72,19 @@ const LOGIN_DURATION=24*60*60*1000;
 
 let categories=[];
 let products=[];
+let openCategories={};
 
 const productList=document.getElementById("productList");
 const productCategory=document.getElementById("productCategory");
 const mainPanel=document.getElementById("mainPanel");
 
-/* ===== YouTube判定 ===== */
+/* ===== メディア判定 ===== */
 
-function isYoutube(url){
-return url.includes("youtu") || url.includes("watch?v=");
-}
-
-/* ===== YouTubeをembed化 ===== */
-
-function normalizeYoutube(url){
-if(!url) return "";
-
-let id="";
-
-if(url.includes("youtu.be/")){
-id=url.split("youtu.be/")[1].split("?")[0];
-}
-else if(url.includes("watch?v=")){
-id=url.split("watch?v=")[1].split("&")[0];
-}
-else if(url.includes("embed/")){
-id=url.split("embed/")[1].split("?")[0];
-}
-
-if(!id) return url;
-
-return "https://www.youtube.com/embed/"+id;
+function isVideo(url){
+if(!url) return false;
+return url.includes("youtu") ||
+url.includes("vimeo") ||
+url.match(/\.(mp4|webm|ogg)$/i);
 }
 
 /* ===== ログイン ===== */
@@ -148,7 +120,7 @@ catName.value="";
 catImage.value="";
 }
 
-/* ===== 商品追加（両対応） ===== */
+/* ===== 商品追加（自動判定） ===== */
 
 window.addProduct=async function(){
 
@@ -157,23 +129,17 @@ const name=pName.value.trim();
 const desc=pDesc.value;
 let image=pImage.value.trim();
 let video=pVideo.value.trim();
-const tag=pTag.value;
 
 if(!category||!name)return alert("必須項目不足");
 
-/* 画像欄にYouTubeが入った場合 */
-if(isYoutube(image)){
+/* 画像欄に動画が入ったら動画へ移動 */
+if(isVideo(image)){
 video=image;
 image="";
 }
 
-/* 動画欄がYouTubeならembed化 */
-if(isYoutube(video)){
-video=normalizeYoutube(video);
-}
-
 await addDoc(collection(db,"products"),{
-category,name,desc,image,video,tag,
+category,name,desc,image,video,
 order:Date.now(),
 updatedAt:Date.now()
 });
@@ -184,7 +150,32 @@ pImage.value="";
 pVideo.value="";
 }
 
-/* ===== 商品表示 ===== */
+/* ===== 商品削除 ===== */
+
+window.deleteProduct=id=>{
+if(confirm("削除しますか"))
+deleteDoc(doc(db,"products",id))
+}
+
+/* ===== 並び替え ===== */
+
+window.moveProductUp=async id=>{
+const s=[...products].sort((a,b)=>a.order-b.order);
+const i=s.findIndex(p=>p.id===id);
+if(i<=0)return;
+await updateDoc(doc(db,"products",s[i].id),{order:s[i-1].order});
+await updateDoc(doc(db,"products",s[i-1].id),{order:s[i].order});
+}
+
+window.moveProductDown=async id=>{
+const s=[...products].sort((a,b)=>a.order-b.order);
+const i=s.findIndex(p=>p.id===id);
+if(i>=s.length-1)return;
+await updateDoc(doc(db,"products",s[i].id),{order:s[i+1].order});
+await updateDoc(doc(db,"products",s[i+1].id),{order:s[i].order});
+}
+
+/* ===== Firebase監視 ===== */
 
 onSnapshot(query(collection(db,"categories"),orderBy("order")),snap=>{
 categories=[];
@@ -209,16 +200,13 @@ const div=document.createElement("div");
 div.className="item";
 div.innerHTML=`
 ${p.name}
+<button onclick="moveProductUp('${p.id}')">▲</button>
+<button onclick="moveProductDown('${p.id}')">▼</button>
 <button onclick="deleteProduct('${p.id}')">削除</button>
 `;
 productList.appendChild(div);
 });
 });
-
-window.deleteProduct=id=>{
-if(confirm("削除しますか"))
-deleteDoc(doc(db,"products",id))
-}
 
 checkAutoLogin();
 
