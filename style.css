@@ -7,11 +7,10 @@ padding:0;
 body{
 font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif;
 color:#ddd;
-background:radial-gradient(circle at 20% 20%,#0a141c,#05080c);
 min-height:100vh;
 position:relative;
 overflow-x:hidden;
-background-attachment:fixed;
+background:#05080c;
 }
 
 /* ================= HEADER ================= */
@@ -216,14 +215,6 @@ font-weight:600;
 
 .closeBtn:hover{ background:#ffaa33; }
 
-/* ================= SCROLLBAR ================= */
-
-::-webkit-scrollbar{ width:8px; }
-::-webkit-scrollbar-thumb{
-background:#ff8800;
-border-radius:10px;
-}
-
 /* ================= MOBILE ================= */
 
 @media(max-width:700px){
@@ -234,65 +225,47 @@ border-radius:10px;
 }
 
 /* ===================================================== */
-/* ===== ULTRA INDUSTRIAL REAL METAL GEAR BACKGROUND ===== */
+/* ===== REAL CLOCKWORK GEAR BACKGROUND ===== */
 /* ===================================================== */
 
-:root{
---gear:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Cdefs%3E%3ClinearGradient id='m' x1='0' x2='1'%3E%3Cstop offset='0%25' stop-color='%23d0d0d0'/%3E%3Cstop offset='50%25' stop-color='%23666666'/%3E%3Cstop offset='100%25' stop-color='%23d0d0d0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg fill='url(%23m)' stroke='%23333333' stroke-width='8'%3E%3Ccircle cx='200' cy='200' r='110'/%3E%3Ccircle cx='200' cy='200' r='45' fill='%23222222'/%3E%3C/g%3E%3Cg fill='%23888888'%3E%3Crect x='190' y='5' width='20' height='60'/%3E%3Crect x='190' y='335' width='20' height='60'/%3E%3Crect x='335' y='190' width='60' height='20'/%3E%3Crect x='5' y='190' width='60' height='20'/%3E%3Crect x='300' y='40' width='20' height='60' transform='rotate(45 310 70)'/%3E%3Crect x='300' y='300' width='20' height='60' transform='rotate(135 310 330)'/%3E%3Crect x='80' y='300' width='20' height='60' transform='rotate(225 90 330)'/%3E%3Crect x='80' y='40' width='20' height='60' transform='rotate(315 90 70)'/%3E%3C/g%3E%3C/svg%3E");
-}
-
-/* 奥レイヤー（巨大・超低速） */
+/* 奥の巨大レイヤー */
 
 body::before{
 content:"";
 position:fixed;
-top:-60%;
-left:-60%;
-width:220%;
-height:220%;
-pointer-events:none;
+top:-10%;
+left:-10%;
+width:120%;
+height:120%;
+background:url("https://images.unsplash.com/photo-1526401485004-2aa7f3d2e4e0?q=80&w=2000") center/cover no-repeat;
+opacity:0.18;
+filter:grayscale(100%) contrast(120%);
 z-index:-3;
-opacity:.25;
-filter:blur(4px);
-background-image:var(--gear),var(--gear),var(--gear);
-background-repeat:no-repeat;
-background-size:1200px 1200px,900px 900px,1000px 1000px;
-background-position:10% 20%,70% 30%,40% 80%;
-animation:gearSlow 180s linear infinite;
-transform-origin:center;
+animation:gearRotateSlow 180s linear infinite;
 }
 
-/* 中間レイヤー（逆回転） */
+/* 手前レイヤー */
 
 body::after{
 content:"";
 position:fixed;
-top:-50%;
-left:-50%;
-width:200%;
-height:200%;
-pointer-events:none;
+top:-5%;
+left:-5%;
+width:110%;
+height:110%;
+background:url("https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2000") center/cover no-repeat;
+opacity:0.12;
+filter:grayscale(100%) contrast(140%);
 z-index:-2;
-opacity:.45;
-filter:blur(2px);
-background-image:var(--gear),var(--gear);
-background-repeat:no-repeat;
-background-size:600px 600px,500px 500px;
-background-position:35% 40%,75% 70%;
-animation:gearReverse 90s linear infinite;
-transform-origin:center;
+animation:gearRotateReverse 120s linear infinite;
 }
 
-@keyframes gearSlow{
+@keyframes gearRotateSlow{
 0%{transform:rotate(0deg);}
 100%{transform:rotate(360deg);}
 }
 
-@keyframes gearReverse{
+@keyframes gearRotateReverse{
 0%{transform:rotate(0deg);}
 100%{transform:rotate(-360deg);}
-}
-
-@media (prefers-reduced-motion: reduce){
-body::before,body::after{ animation:none; }
 }
