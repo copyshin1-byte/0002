@@ -104,10 +104,34 @@ const detail=document.getElementById("productDetail");
 const modal=document.getElementById("modal");
 
 
+/* ================= YouTube変換（追加部分） ================= */
+
+function convertYoutube(url){
+
+if(!url) return "";
+
+let id = "";
+
+if(url.includes("youtu.be/")){
+  id = url.split("youtu.be/")[1].split("?")[0];
+}
+else if(url.includes("watch?v=")){
+  id = url.split("watch?v=")[1].split("&")[0];
+}
+else if(url.includes("embed/")){
+  id = url.split("embed/")[1].split("?")[0];
+}
+
+if(!id) return "";
+
+return "https://www.youtube.com/embed/" + id;
+}
+
+/* ========================================================== */
+
+
 function getCategoryImage(c){
-
 return c.img || c.image || "";
-
 }
 
 
@@ -264,7 +288,13 @@ if(p.image)
 html+=`<img src="${p.image}">`;
 
 if(p.video)
-html+=`<iframe src="${p.video}" allowfullscreen></iframe>`;
+html+=`
+<iframe 
+src="${convertYoutube(p.video)}"
+frameborder="0"
+allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+allowfullscreen>
+</iframe>`;
 
 
 /* PC */
@@ -300,9 +330,7 @@ modal.style.display="block";
 
 
 window.closeModal=function(){
-
 modal.style.display="none";
-
 }
 
 
@@ -311,7 +339,6 @@ modal.style.display="none";
 onSnapshot(collection(db,"categories"),s=>{
 
 categories=s.docs.map(d=>d.data());
-
 renderCategories();
 
 });
