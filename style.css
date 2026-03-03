@@ -5,657 +5,282 @@ padding:0;
 }
 
 body{
-
-font-family:-apple-system,BlinkMacSystemFont,
-"Noto Sans JP",sans-serif;
-
+font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif;
 color:#ddd;
-
-background:
-
-radial-gradient(circle at 20% 20%,#0a141c,#05080c);
-
+background:radial-gradient(circle at 20% 20%,#0a141c,#05080c);
 min-height:100vh;
-
-}
-
-
-
-/* ===== Header ===== */
-
-.header{
-
-position:fixed;
-top:0;
-left:0;
-right:0;
-
-height:65px;
-
-display:flex;
-align-items:center;
-justify-content:center;
-
-background:linear-gradient(#05080c,#000);
-
-border-bottom:1px solid #ff8800;
-
-box-shadow:
-0 0 15px #ff880033,
-inset 0 -1px 0 #ff880055;
-
-z-index:100;
-
-}
-
-
-.logoText{
-
-font-size:22px;
-
-font-weight:700;
-
-letter-spacing:4px;
-
-color:#ff8800;
-
-text-shadow:
-0 0 6px #ff8800aa;
-
-}
-
-
-
-/* ===== Layout ===== */
-
-.container{
-
-max-width:1400px;
-
-margin:80px auto;
-
-padding:20px;
-
-display:flex;
-
-gap:20px;
-
-}
-
-
-
-/* ===== Panel ===== */
-
-.panel{
-
-background:
-
-linear-gradient(
-180deg,
-#0a0f14,
-#05080c
-);
-
-border-radius:12px;
-
-padding:16px;
-
-border:1px solid #ff880044;
-
-box-shadow:
-
-0 0 15px #000 inset,
-0 0 20px #000;
-
-transition:.2s;
-
-}
-
-
-.panel:hover{
-
-border:1px solid #ff880088;
-
-box-shadow:
-
-0 0 20px #000 inset,
-0 0 25px #ff880022;
-
-}
-
-
-
-/* ===== Widths（そのまま） ===== */
-
-.categories{
-
-width:230px;
-
-}
-
-.products{
-
-width:420px;
-
-}
-
-.detail{
-
-flex:1;
-
-}
-
-
-
-/* ===== Category ===== */
-
-.categoryBtn{
-
-padding:10px 14px;
-
-margin:6px 0;
-
-cursor:pointer;
-
-border-radius:8px;
-
-background:
-
-linear-gradient(#0f1620,#0a1118);
-
-border:1px solid #ff880033;
-
-display:flex;
-
-align-items:center;
-
-gap:10px;
-
-transition:.2s;
-
-}
-
-
-.categoryBtn:hover{
-
-border:1px solid #ff8800;
-
-box-shadow:
-0 0 15px #ff880055;
-
-transform:translateY(-1px);
-
-}
-
-
-
-/* Category icon */
-
-.categoryBtn img{
-
-width:30px;
-height:30px;
-
-border-radius:6px;
-
-object-fit:cover;
-
-border:1px solid #ff880033;
-
-}
-
-
-
-/* ===== Search ===== */
-
-#searchBox{
-
-width:100%;
-
-padding:10px;
-
-margin-bottom:12px;
-
-background:#000;
-
-border:1px solid #ff880044;
-
-color:#ff8800;
-
-border-radius:6px;
-
-outline:none;
-
-}
-
-
-#searchBox:focus{
-
-border:1px solid #ff8800;
-
-box-shadow:
-0 0 10px #ff880055;
-
-}
-
-
-
-/* ===== Product Card ===== */
-
-.card{
-
-display:flex;
-
-gap:12px;
-
-padding:12px;
-
-margin-bottom:12px;
-
-cursor:pointer;
-
-border-radius:10px;
-
-background:
-
-linear-gradient(#0b1218,#060b10);
-
-border:1px solid #ff880033;
-
-transition:.2s;
-
-position:relative;
-
-overflow:hidden;
-
-}
-
-
-.card:hover{
-
-border:1px solid #ff8800;
-
-box-shadow:
-0 0 20px #ff880044;
-
-transform:translateY(-2px);
-
-}
-
-
-
-/* 光ライン */
-
-.card::before{
-
-content:"";
-
-position:absolute;
-
-top:0;
-left:-100%;
-
-width:100%;
-height:2px;
-
-background:
-
-linear-gradient(
-90deg,
-transparent,
-#ff8800,
-transparent
-);
-
-transition:.6s;
-
-}
-
-.card:hover::before{
-
-left:100%;
-
-}
-
-
-
-/* 商品画像 */
-
-.card img{
-
-width:90px;
-height:90px;
-
-border-radius:8px;
-
-object-fit:cover;
-
-border:1px solid #ff880044;
-
-}
-
-
-
-/* Title */
-
-.title{
-
-font-size:16px;
-
-font-weight:700;
-
-letter-spacing:1px;
-
-}
-
-
-
-/* Description */
-
-.desc{
-
-white-space:pre-line;
-
-line-height:1.7;
-
-opacity:.9;
-
-}
-
-
-
-/* ===== Modal ===== */
-
-.modal{
-
-position:fixed;
-
-top:0;
-left:0;
-
-width:100%;
-height:100%;
-
-background:
-
-linear-gradient(#020406,#000);
-
-padding:40px;
-
-display:none;
-
-overflow:auto;
-
-z-index:9999;
-
-}
-
-
-.modal img{
-
-width:100%;
-
-margin-top:20px;
-
-border-radius:10px;
-
-border:1px solid #ff880044;
-
-}
-
-
-.modal iframe{
-
-width:100%;
-height:420px;
-
-margin-top:20px;
-
-border-radius:10px;
-
-border:1px solid #ff880044;
-
-}
-
-
-
-/* Close button */
-
-.closeBtn{
-
-margin-bottom:20px;
-
-padding:10px 22px;
-
-border-radius:8px;
-
-border:none;
-
-background:#ff8800;
-
-color:black;
-
-cursor:pointer;
-
-font-weight:600;
-
-}
-
-
-.closeBtn:hover{
-
-background:#ffaa33;
-
-}
-
-
-
-/* Scrollbar */
-
-::-webkit-scrollbar{
-width:8px;
-}
-
-::-webkit-scrollbar-thumb{
-
-background:#ff8800;
-
-border-radius:10px;
-
-}
-
-
-
-/* Mobile */
-
-@media(max-width:700px){
-
-.container{
-
-flex-direction:column;
-
-margin-top:70px;
-
-}
-
-.categories,
-.products{
-
-width:100%;
-
-}
-
-.detail{
-
-display:none;
-
-}
-
-.modal iframe{
-
-height:250px;
-
-}
-
-  /* ===== ADVANCED GEAR BACKGROUND ===== */
-/* 回転速度ランダム・ぼかし・奥行きパララックス */
-
-body{
 position:relative;
 overflow-x:hidden;
 }
 
-/* SVG歯車（2色） */
-:root{
+/* ===== Header ===== */
 
---gearA:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cg fill='none' stroke='%23ff00ff' stroke-width='8' stroke-opacity='.25'%3E%3Ccircle cx='100' cy='100' r='45'/%3E%3Ccircle cx='100' cy='100' r='18'/%3E%3C/g%3E%3Cg fill='%23ff00ff' fill-opacity='.15'%3E%3Crect x='92' y='5' width='16' height='28'/%3E%3Crect x='92' y='167' width='16' height='28'/%3E%3Crect x='167' y='92' width='28' height='16'/%3E%3Crect x='5' y='92' width='28' height='16'/%3E%3C/g%3E%3C/svg%3E");
-
---gearB:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cg fill='none' stroke='%238a2bff' stroke-width='8' stroke-opacity='.25'%3E%3Ccircle cx='100' cy='100' r='45'/%3E%3Ccircle cx='100' cy='100' r='18'/%3E%3C/g%3E%3Cg fill='%238a2bff' fill-opacity='.15'%3E%3Crect x='92' y='5' width='16' height='28'/%3E%3Crect x='92' y='167' width='16' height='28'/%3E%3Crect x='167' y='92' width='28' height='16'/%3E%3Crect x='5' y='92' width='28' height='16'/%3E%3C/g%3E%3C/svg%3E");
-
+.header{
+position:fixed;
+top:0;
+left:0;
+right:0;
+height:65px;
+display:flex;
+align-items:center;
+justify-content:center;
+background:linear-gradient(#05080c,#000);
+border-bottom:1px solid #ff8800;
+box-shadow:0 0 15px #ff880033,inset 0 -1px 0 #ff880055;
+z-index:100;
 }
 
+.logoText{
+font-size:22px;
+font-weight:700;
+letter-spacing:4px;
+color:#ff8800;
+text-shadow:0 0 6px #ff8800aa;
+}
 
-/* ===== レイヤー1（奥：大きくて遅い） ===== */
+/* ===== Layout ===== */
+
+.container{
+max-width:1400px;
+margin:80px auto;
+padding:20px;
+display:flex;
+gap:20px;
+}
+
+/* ===== Panel ===== */
+
+.panel{
+background:linear-gradient(180deg,#0a0f14,#05080c);
+border-radius:12px;
+padding:16px;
+border:1px solid #ff880044;
+box-shadow:0 0 15px #000 inset,0 0 20px #000;
+transition:.2s;
+}
+
+.panel:hover{
+border:1px solid #ff880088;
+box-shadow:0 0 20px #000 inset,0 0 25px #ff880022;
+}
+
+/* ===== Widths ===== */
+
+.categories{ width:230px; }
+.products{ width:420px; }
+.detail{ flex:1; }
+
+/* ===== Category ===== */
+
+.categoryBtn{
+padding:10px 14px;
+margin:6px 0;
+cursor:pointer;
+border-radius:8px;
+background:linear-gradient(#0f1620,#0a1118);
+border:1px solid #ff880033;
+display:flex;
+align-items:center;
+gap:10px;
+transition:.2s;
+}
+
+.categoryBtn:hover{
+border:1px solid #ff8800;
+box-shadow:0 0 15px #ff880055;
+transform:translateY(-1px);
+}
+
+.categoryBtn img{
+width:30px;
+height:30px;
+border-radius:6px;
+object-fit:cover;
+border:1px solid #ff880033;
+}
+
+/* ===== Search ===== */
+
+#searchBox{
+width:100%;
+padding:10px;
+margin-bottom:12px;
+background:#000;
+border:1px solid #ff880044;
+color:#ff8800;
+border-radius:6px;
+outline:none;
+}
+
+#searchBox:focus{
+border:1px solid #ff8800;
+box-shadow:0 0 10px #ff880055;
+}
+
+/* ===== Product Card ===== */
+
+.card{
+display:flex;
+gap:12px;
+padding:12px;
+margin-bottom:12px;
+cursor:pointer;
+border-radius:10px;
+background:linear-gradient(#0b1218,#060b10);
+border:1px solid #ff880033;
+transition:.2s;
+position:relative;
+overflow:hidden;
+}
+
+.card:hover{
+border:1px solid #ff8800;
+box-shadow:0 0 20px #ff880044;
+transform:translateY(-2px);
+}
+
+.card::before{
+content:"";
+position:absolute;
+top:0;
+left:-100%;
+width:100%;
+height:2px;
+background:linear-gradient(90deg,transparent,#ff8800,transparent);
+transition:.6s;
+}
+
+.card:hover::before{ left:100%; }
+
+.card img{
+width:90px;
+height:90px;
+border-radius:8px;
+object-fit:cover;
+border:1px solid #ff880044;
+}
+
+.title{
+font-size:16px;
+font-weight:700;
+letter-spacing:1px;
+}
+
+.desc{
+white-space:pre-line;
+line-height:1.7;
+opacity:.9;
+}
+
+/* ===== Modal ===== */
+
+.modal{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:linear-gradient(#020406,#000);
+padding:40px;
+display:none;
+overflow:auto;
+z-index:9999;
+}
+
+.modal img{
+width:100%;
+margin-top:20px;
+border-radius:10px;
+border:1px solid #ff880044;
+}
+
+.modal iframe{
+width:100%;
+height:420px;
+margin-top:20px;
+border-radius:10px;
+border:1px solid #ff880044;
+}
+
+.closeBtn{
+margin-bottom:20px;
+padding:10px 22px;
+border-radius:8px;
+border:none;
+background:#ff8800;
+color:black;
+cursor:pointer;
+font-weight:600;
+}
+
+.closeBtn:hover{ background:#ffaa33; }
+
+/* ===== Scrollbar ===== */
+
+::-webkit-scrollbar{ width:8px; }
+::-webkit-scrollbar-thumb{
+background:#ff8800;
+border-radius:10px;
+}
+
+/* ===== Mobile ===== */
+
+@media(max-width:700px){
+.container{ flex-direction:column; margin-top:70px; }
+.categories,.products{ width:100%; }
+.detail{ display:none; }
+.modal iframe{ height:250px; }
+}
+
+/* ================================================= */
+/* ===== ADVANCED GEAR BACKGROUND（修正版） ===== */
+/* ================================================= */
+
+:root{
+--gearA:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cg fill='none' stroke='%23ff8800' stroke-width='8' stroke-opacity='.25'%3E%3Ccircle cx='100' cy='100' r='45'/%3E%3Ccircle cx='100' cy='100' r='18'/%3E%3C/g%3E%3Cg fill='%23ff8800' fill-opacity='.15'%3E%3Crect x='92' y='5' width='16' height='28'/%3E%3Crect x='92' y='167' width='16' height='28'/%3E%3Crect x='167' y='92' width='28' height='16'/%3E%3Crect x='5' y='92' width='28' height='16'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* 奥レイヤー */
 
 body::before{
-
 content:"";
-
 position:fixed;
-
 top:-40%;
 left:-40%;
-
 width:180%;
 height:180%;
-
 pointer-events:none;
-
 z-index:-2;
-
-opacity:.6;
-
+opacity:.5;
 filter:blur(2px);
-
-background-image:
-
-var(--gearA),
-var(--gearB),
-var(--gearA),
-var(--gearB);
-
+background-image:var(--gearA),var(--gearA),var(--gearA);
 background-repeat:no-repeat;
-
-background-size:
-
-420px 420px,
-360px 360px,
-500px 500px,
-380px 380px;
-
-background-position:
-
-15% 20%,
-55% 25%,
-30% 70%,
-75% 75%;
-
+background-size:420px 420px,360px 360px,500px 500px;
+background-position:15% 20%,55% 25%,30% 70%;
 animation:gearSlow 70s linear infinite;
-
 transform-origin:center;
-
 }
 
-
-/* ===== レイヤー2（中間：標準） ===== */
+/* 手前レイヤー */
 
 body::after{
-
 content:"";
-
 position:fixed;
-
 top:-30%;
 left:-30%;
-
 width:160%;
 height:160%;
-
 pointer-events:none;
-
 z-index:-1;
-
 opacity:.8;
-
 filter:blur(1px);
-
-background-image:
-
-var(--gearB),
-var(--gearA),
-var(--gearB),
-var(--gearA),
-var(--gearB);
-
+background-image:var(--gearA),var(--gearA);
 background-repeat:no-repeat;
-
-background-size:
-
-220px 220px,
-180px 180px,
-260px 260px,
-200px 200px,
-240px 240px;
-
-background-position:
-
-20% 30%,
-45% 40%,
-70% 35%,
-35% 80%,
-80% 65%;
-
+background-size:220px 220px,260px 260px;
+background-position:45% 40%,70% 35%;
 animation:gearMedium 38s linear infinite reverse;
-
 transform-origin:center;
-
 }
-
-
-/* ===== 追加レイヤー（手前：小さく速い） ===== */
-
-body::after{
-background-image:
-
-var(--gearB),
-var(--gearA),
-var(--gearB),
-var(--gearA),
-var(--gearB),
-var(--gearA);
-
-background-size:
-
-220px 220px,
-180px 180px,
-260px 260px,
-200px 200px,
-240px 240px,
-140px 140px;
-
-background-position:
-
-20% 30%,
-45% 40%,
-70% 35%,
-35% 80%,
-80% 65%,
-60% 15%;
-
-}
-
-
-/* ===== 回転アニメーション ===== */
 
 @keyframes gearSlow{
 0%{transform:rotate(0deg);}
@@ -667,22 +292,6 @@ background-position:
 100%{transform:rotate(-360deg);}
 }
 
-
-/* ===== パララックス風スクロール ===== */
-
-body{
-background-attachment:fixed;
-}
-
-
-/* ===== モーション軽減対応 ===== */
-
 @media (prefers-reduced-motion: reduce){
-
-body::before,
-body::after{
-animation:none;
-}
-
-}
+body::before,body::after{ animation:none; }
 }
