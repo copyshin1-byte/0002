@@ -63,13 +63,16 @@ const productList=document.getElementById("productList");
 const detail=document.getElementById("productDetail");
 const modal=document.getElementById("modal");
 
-/* ===== YouTube正規化 ===== */
+/* ===== メディア判定（万能版） ===== */
 
-function normalizeVideo(url){
-if(!url) return "";
+function detectMedia(url){
 
+if(!url) return {type:"none"};
+url=url.trim();
+
+/* ===== YouTube ===== */
+if(url.includes("youtu")){
 let id="";
-
 if(url.includes("youtu.be/")){
 id=url.split("youtu.be/")[1].split("?")[0];
 }
@@ -79,13 +82,30 @@ id=url.split("watch?v=")[1].split("&")[0];
 else if(url.includes("embed/")){
 id=url.split("embed/")[1].split("?")[0];
 }
-
-if(!id) return "";
-
-return "https://www.youtube.com/embed/"+id;
+return {type:"youtube",src:"https://www.youtube.com/embed/"+id};
 }
 
-/* ===== カテゴリ ===== */
+/* ===== Vimeo ===== */
+if(url.includes("vimeo.com")){
+let id=url.split("/").pop().split("?")[0];
+return {type:"vimeo",src:"https://player.vimeo.com/video/"+id};
+}
+
+/* ===== 直リンク動画 ===== */
+if(url.match(/\.(mp4|webm|ogg)$/i)){
+return {type:"video",src:url};
+}
+
+/* ===== 画像 ===== */
+if(url.match(/\.(jpg|jpeg|png|gif|webp)$/i)){
+return {type:"image",src:url};
+}
+
+/* ===== その他 ===== */
+return {type:"iframe",src:url};
+}
+
+/* ===== カテゴリ表示 ===== */
 
 function renderCategories(){
 categoryList.innerHTML="";
@@ -146,33 +166,36 @@ productList.appendChild(div);
 
 function showDetail(p){
 
-let videoUrl = normalizeVideo(p.video||"");
-
 let description=(p.desc||"").replace(/\n/g,"<br>");
+let html=`<h2>${p.name}</h2><div class="desc">${description}</div>`;
 
-let html=`
-<h2>${p.name}</h2>
-<div class="desc">${description}</div>
-`;
+/* 画像 */
+if(p.image){
+let media=detectMedia(p.image);
+if(media.type==="image"){
+html+=`<img src="${media.src}">`;
+}
+}
 
-if(p.image)
-html+=`<img src="${p.image}">`;
+/* 動画 */
+if(p.video){
+let media=detectMedia(p.video);
 
-if(videoUrl)
-html+=`
-<iframe
-src="${videoUrl}"
-frameborder="0"
-allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-allowfullscreen>
-</iframe>`;
+if(media.type==="youtube"||media.type==="vimeo"){
+html+=`<iframe src="${media.src}" frameborder="0" allowfullscreen></iframe>`;
+}
+else if(media.type==="video"){
+html+=`<video src="${media.src}" controls style="width:100%"></video>`;
+}
+else if(media.type==="iframe"){
+html+=`<iframe src="${media.src}" frameborder="0"></iframe>`;
+}
+}
 
 if(window.innerWidth>700){
 detail.innerHTML=html;
 }else{
-modal.innerHTML=`
-<button class="closeBtn" onclick="closeModal()">閉じる</button>
-${html}`;
+modal.innerHTML=`<button class="closeBtn" onclick="closeModal()">閉じる</button>${html}`;
 modal.style.display="block";
 }
 }
