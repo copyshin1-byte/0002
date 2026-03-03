@@ -7,6 +7,17 @@
 <title>00002</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+
+<style>
+/* ★ カテゴリ画像サイズだけ補正（デザインは変えない） */
+.categoryBtn img{
+width:32px;
+height:32px;
+object-fit:cover;
+border-radius:6px;
+}
+</style>
+
 </head>
 
 <body>
@@ -62,25 +73,22 @@ const productList=document.getElementById("productList");
 const detail=document.getElementById("productDetail");
 const modal=document.getElementById("modal");
 
-/* 🔥 YouTube変換（内部処理のみ） */
-
+/* ===== YouTube変換（安全版） ===== */
 function normalizeVideoUrl(url){
 if(!url) return "";
-
 let id="";
 
 if(url.includes("youtu.be/")){
-  id=url.split("youtu.be/")[1].split("?")[0];
+id=url.split("youtu.be/")[1].split("?")[0];
 }
 else if(url.includes("watch?v=")){
-  id=url.split("watch?v=")[1].split("&")[0];
+id=url.split("watch?v=")[1].split("&")[0];
 }
 else if(url.includes("embed/")){
-  id=url.split("embed/")[1].split("?")[0];
+id=url.split("embed/")[1].split("?")[0];
 }
 
-if(!id) return url;
-
+if(!id) return "";
 return "https://www.youtube.com/embed/"+id;
 }
 
@@ -88,8 +96,7 @@ function getCategoryImage(c){
 return c.img || c.image || "";
 }
 
-/* カテゴリ */
-
+/* ===== カテゴリ表示 ===== */
 function renderCategories(){
 categoryList.innerHTML="";
 categories.forEach(c=>{
@@ -109,8 +116,7 @@ categoryList.appendChild(div);
 });
 }
 
-/* 商品一覧 */
-
+/* ===== 商品一覧 ===== */
 function renderProducts(){
 productList.innerHTML="";
 products
@@ -126,8 +132,7 @@ productList.appendChild(div);
 });
 }
 
-/* 検索 */
-
+/* ===== 検索 ===== */
 window.searchAll=function(){
 const q=document.getElementById("searchBox").value.toLowerCase();
 productList.innerHTML="";
@@ -145,29 +150,38 @@ productList.appendChild(div);
 });
 }
 
-/* 説明表示（変更なし） */
-
+/* ===== 詳細表示 ===== */
 function showDetail(p){
 
-/* 🔥 表示前にだけ内部変換 */
-if(p.video){
-p.video = normalizeVideoUrl(p.video);
-}
+let videoUrl = normalizeVideoUrl(p.video||"");
+
+/* 改行対応 */
+let description = (p.desc || "")
+.replace(/\n/g,"<br>");
 
 let html=`
 <h2>${p.name}</h2>
-<div class="desc">${p.desc||""}</div>
+<div class="desc">${description}</div>
 `;
 
 if(p.image)
 html+=`<img src="${p.image}">`;
 
-if(p.video)
-html+=`<iframe src="${p.video}" allowfullscreen></iframe>`;
+if(videoUrl)
+html+=`
+<iframe
+src="${videoUrl}"
+frameborder="0"
+allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+allowfullscreen>
+</iframe>`;
 
+/* PC */
 if(window.innerWidth>700){
 detail.innerHTML=html;
-}else{
+}
+/* スマホ */
+else{
 modal.innerHTML=`
 <button class="closeBtn" onclick="closeModal()">閉じる</button>
 ${html}`;
@@ -179,8 +193,7 @@ window.closeModal=function(){
 modal.style.display="none";
 }
 
-/* Firebase */
-
+/* ===== Firebase ===== */
 onSnapshot(collection(db,"categories"),s=>{
 categories=s.docs.map(d=>d.data());
 renderCategories();
