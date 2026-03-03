@@ -1,11 +1,8 @@
 <!doctype html>
 <html lang="ja">
-
 <head>
-
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-
 <title>00002</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
@@ -22,27 +19,18 @@
 <div class="container">
 
 <div class="panel categories">
-
 <h3>カテゴリ</h3>
 <div id="categoryList"></div>
-
 </div>
 
 <div class="panel products">
-
-<input id="searchBox"
-placeholder="検索"
-oninput="searchAll()">
-
+<input id="searchBox" placeholder="検索" oninput="searchAll()">
 <div id="productList"></div>
-
 </div>
 
 <div class="panel detail">
-
 <h3>商品説明</h3>
 <div id="productDetail"></div>
-
 </div>
 
 </div>
@@ -75,9 +63,9 @@ const productList=document.getElementById("productList");
 const detail=document.getElementById("productDetail");
 const modal=document.getElementById("modal");
 
-/* ================= YouTube変換 ================= */
+/* ===== YouTube正規化 ===== */
 
-function normalizeVideoUrl(url){
+function normalizeVideo(url){
 if(!url) return "";
 
 let id="";
@@ -97,109 +85,70 @@ if(!id) return "";
 return "https://www.youtube.com/embed/"+id;
 }
 
-/* ============================================== */
-
-function getCategoryImage(c){
-return c.img || c.image || "";
-}
-
-/* カテゴリ */
+/* ===== カテゴリ ===== */
 
 function renderCategories(){
-
 categoryList.innerHTML="";
-
 categories.forEach(c=>{
-
 const div=document.createElement("div");
 div.className="categoryBtn";
-
 div.onclick=()=>{
 currentCategory=c.name;
 renderProducts();
 detail.innerHTML="";
 };
-
 div.innerHTML=`
 <div style="display:flex;align-items:center;gap:10px">
-<img src="${getCategoryImage(c)}"
-style="width:32px;height:32px;object-fit:cover;border-radius:6px;"
-onerror="this.style.display='none'">
+<img src="${c.image||""}" onerror="this.style.display='none'">
 <span>${c.name}</span>
-</div>
-`;
-
+</div>`;
 categoryList.appendChild(div);
-
 });
-
 }
 
-/* 商品一覧 */
+/* ===== 商品一覧 ===== */
 
 function renderProducts(){
-
 productList.innerHTML="";
-
 products
 .filter(p=>p.category===currentCategory)
 .forEach(p=>{
-
 const div=document.createElement("div");
 div.className="card";
 div.onclick=()=>showDetail(p);
-
 div.innerHTML=`
-<img src="${p.image||""}"
-onerror="this.style.display='none'">
-<div class="title">${p.name}</div>
-`;
-
+<img src="${p.image||""}" onerror="this.style.display='none'">
+<div class="title">${p.name}</div>`;
 productList.appendChild(div);
-
 });
-
 }
 
-/* 検索 */
+/* ===== 検索 ===== */
 
 window.searchAll=function(){
-
 const q=document.getElementById("searchBox").value.toLowerCase();
-
 productList.innerHTML="";
-
 products
-.filter(p=>
-p.category===currentCategory &&
-(p.name||"").toLowerCase().includes(q)
-)
+.filter(p=>p.category===currentCategory &&
+(p.name||"").toLowerCase().includes(q))
 .forEach(p=>{
-
 const div=document.createElement("div");
 div.className="card";
 div.onclick=()=>showDetail(p);
-
 div.innerHTML=`
-<img src="${p.image||""}"
-onerror="this.style.display='none'">
-<div class="title">${p.name}</div>
-`;
-
+<img src="${p.image||""}" onerror="this.style.display='none'">
+<div class="title">${p.name}</div>`;
 productList.appendChild(div);
-
 });
-
 }
 
-/* 詳細表示 */
+/* ===== 詳細表示 ===== */
 
 function showDetail(p){
 
-let videoUrl = p.video ? normalizeVideoUrl(p.video) : "";
+let videoUrl = normalizeVideo(p.video||"");
 
-let description = (p.desc || "")
-.replace(/\n/g,"<br>");
+let description=(p.desc||"").replace(/\n/g,"<br>");
 
 let html=`
 <h2>${p.name}</h2>
@@ -216,29 +165,23 @@ src="${videoUrl}"
 frameborder="0"
 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
 allowfullscreen>
-</iframe>
-`;
+</iframe>`;
 
-/* PC */
 if(window.innerWidth>700){
 detail.innerHTML=html;
-}
-/* スマホ */
-else{
+}else{
 modal.innerHTML=`
 <button class="closeBtn" onclick="closeModal()">閉じる</button>
-${html}
-`;
+${html}`;
 modal.style.display="block";
 }
-
 }
 
 window.closeModal=function(){
 modal.style.display="none";
 }
 
-/* Firebase */
+/* ===== Firebase ===== */
 
 onSnapshot(collection(db,"categories"),s=>{
 categories=s.docs.map(d=>d.data());
