@@ -1,3 +1,8 @@
+:root{
+--mx:50vw;
+--my:40vh;
+}
+
 *{
 box-sizing:border-box;
 margin:0;
@@ -5,208 +10,609 @@ padding:0;
 }
 
 body{
-font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif;
-color:#ddd;
-background:#05080c;
+font-family:"Noto Sans JP",sans-serif;
+color:#cfefff;
+
+background:
+radial-gradient(circle at 20% 20%,#001a2b,#000814 60%);
+
 min-height:100vh;
-position:relative;
 overflow-x:hidden;
 }
 
-/* ===== リアル工業歯車背景 ===== */
-
-body::before,
-body::after{
-content:"";
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-pointer-events:none;
-z-index:-1;
-}
-
-/* ===== レイヤー1（奥・遅い） ===== */
+/* ===== AIグリッド背景 ===== */
 
 body::before{
-background:
-url("data:image/svg+xml;utf8,\
-<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'>\
-<g fill='%23222'>\
-<circle cx='100' cy='100' r='55'/>\
-</g>\
-<g stroke='%23444' stroke-width='10'>\
-<circle cx='100' cy='100' r='40' fill='none'/>\
-</g>\
-</svg>") 15% 20%/420px no-repeat,
-url("data:image/svg+xml;utf8,\
-<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'>\
-<g fill='%23282828'>\
-<circle cx='100' cy='100' r='50'/>\
-</g>\
-<g stroke='%23555' stroke-width='8'>\
-<circle cx='100' cy='100' r='35' fill='none'/>\
-</g>\
-</svg>") 75% 70%/360px no-repeat;
 
-animation:gearSlow 90s linear infinite;
-filter:blur(2px);
+content:"";
+
+position:fixed;
+inset:0;
+
+background-image:
+linear-gradient(#00eaff22 1px,transparent 1px),
+linear-gradient(90deg,#00eaff22 1px,transparent 1px);
+
+background-size:40px 40px;
+
 opacity:.35;
+
+pointer-events:none;
+
+animation:gridMove 20s linear infinite;
+
 }
 
-/* ===== レイヤー2（中間） ===== */
+@keyframes gridMove{
+0%{transform:translateY(0);}
+100%{transform:translateY(-200px);}
+}
+
+/* ===== AIデータストリーム ===== */
 
 body::after{
+
+content:"";
+
+position:fixed;
+inset:0;
+
 background:
-url("data:image/svg+xml;utf8,\
-<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'>\
-<g fill='%23303030'>\
-<circle cx='100' cy='100' r='45'/>\
-</g>\
-<g stroke='%23666' stroke-width='8'>\
-<circle cx='100' cy='100' r='30' fill='none'/>\
-</g>\
-</svg>") 40% 30%/260px no-repeat,
-url("data:image/svg+xml;utf8,\
-<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'>\
-<g fill='%23262626'>\
-<circle cx='100' cy='100' r='35'/>\
-</g>\
-<g stroke='%23777' stroke-width='6'>\
-<circle cx='100' cy='100' r='20' fill='none'/>\
-</g>\
-</svg>") 70% 40%/200px no-repeat;
 
-animation:gearFast 35s linear infinite reverse;
-opacity:.55;
+radial-gradient(
+600px 400px at var(--mx) var(--my),
+rgba(0,234,255,.25),
+transparent 70%
+),
+
+repeating-linear-gradient(
+180deg,
+transparent,
+transparent 40px,
+#00eaff11 41px,
+#00eaff11 42px
+);
+
+animation:dataFlow 12s linear infinite;
+
+pointer-events:none;
+
 }
 
-/* ===== 回転アニメーション ===== */
-
-@keyframes gearSlow{
-0%{transform:rotate(0deg);}
-100%{transform:rotate(360deg);}
+@keyframes dataFlow{
+0%{background-position:0 0;}
+100%{background-position:0 400px;}
 }
 
-@keyframes gearFast{
-0%{transform:rotate(0deg);}
-100%{transform:rotate(-360deg);}
+/* ===== 粒子 ===== */
+
+html::before{
+
+content:"";
+
+position:fixed;
+inset:0;
+
+background-image:
+radial-gradient(#00eaff55 1px,transparent 1px);
+
+background-size:70px 70px;
+
+animation:particlesMove 30s linear infinite;
+
+opacity:.25;
+
+pointer-events:none;
+
 }
 
-/* ===== 既存UIそのまま ===== */
+@keyframes particlesMove{
+0%{transform:translateY(0);}
+100%{transform:translateY(-500px);}
+}
+
+/* ===== AIコード雨 ===== */
+
+html::after{
+
+content:"";
+
+position:fixed;
+inset:0;
+
+background-image:
+repeating-linear-gradient(
+180deg,
+transparent,
+transparent 18px,
+#00eaff33 19px
+);
+
+background-size:100% 20px;
+
+animation:matrixRain 8s linear infinite;
+
+opacity:.15;
+
+pointer-events:none;
+
+}
+
+@keyframes matrixRain{
+0%{background-position:0 0;}
+100%{background-position:0 600px;}
+}
+
+/* ===== ヘッダー ===== */
 
 .header{
+
 position:fixed;
 top:0;
 left:0;
 right:0;
+
 height:65px;
+
 display:flex;
 align-items:center;
 justify-content:center;
-background:linear-gradient(#05080c,#000);
-border-bottom:1px solid #ff8800;
-box-shadow:0 0 15px #ff880033,inset 0 -1px 0 #ff880055;
+
+background:rgba(0,20,40,.6);
+
+backdrop-filter:blur(10px);
+
+border-bottom:1px solid #00eaff55;
+
+box-shadow:0 0 30px #00eaff33;
+
 z-index:100;
+
 }
+
+/* ===== ロゴ ===== */
 
 .logoText{
-font-size:22px;
-font-weight:700;
-letter-spacing:4px;
-color:#ff8800;
-text-shadow:0 0 6px #ff8800aa;
+
+font-size:24px;
+font-weight:bold;
+letter-spacing:2px;
+
+color:#00eaff;
+
+text-shadow:0 0 10px #00eaff;
+
+animation:logoGlitch 6s infinite;
+
 }
+
+@keyframes logoGlitch{
+
+0%,95%,100%{transform:none;}
+
+96%{transform:translateX(2px);}
+97%{transform:translateX(-2px);}
+98%{transform:translateY(1px);}
+
+}
+
+/* ===== レイアウト ===== */
 
 .container{
+
 max-width:1400px;
+
 margin:80px auto;
-padding:20px;
+
+padding:15px;
+
 display:flex;
+
 gap:20px;
+
 }
+
+/* ===== パネル ===== */
 
 .panel{
-background:linear-gradient(180deg,#0a0f14,#05080c);
-border-radius:12px;
+
+position:relative;
+
+background:rgba(0,30,60,.45);
+
+backdrop-filter:blur(12px);
+
+border-radius:14px;
+
 padding:16px;
-border:1px solid #ff880044;
-box-shadow:0 0 15px #000 inset,0 0 20px #000;
+
+border:1px solid #00eaff33;
+
+box-shadow:
+0 0 25px #00eaff22,
+inset 0 0 15px #00eaff22;
+
+transition:.25s;
+
 }
 
-.categories{width:230px;}
-.products{width:420px;}
-.detail{flex:1;}
+.panel:hover{
+
+transform:translateY(-3px) scale(1.01);
+
+box-shadow:
+0 0 35px #00eaff66,
+inset 0 0 30px #00eaff33;
+
+}
+
+/* ===== カテゴリ ===== */
+
+.categories{
+width:260px;
+min-width:260px;
+}
+
+#categoryList{
+
+display:flex;
+flex-wrap:wrap;
+gap:10px;
+  
+display:flex;
+flex-direction:column;
+gap:10px;
+
+}
+
+/* ===== カテゴリボタン ===== */
 
 .categoryBtn{
-padding:10px 14px;
-margin:6px 0;
-cursor:pointer;
-border-radius:8px;
-background:linear-gradient(#0f1620,#0a1118);
-border:1px solid #ff880033;
+
 display:flex;
 align-items:center;
 gap:10px;
+
+padding:10px;
+
+border-radius:12px;
+
+cursor:pointer;
+
+background:rgba(0,50,90,.5);
+
+border:1px solid #00eaff33;
+
+transition:.2s;
+
 }
+
+.categoryBtn:hover{
+
+box-shadow:0 0 15px #00eaff;
+
+background:rgba(0,70,120,.6);
+
+}
+
+/* ===== カテゴリ画像自動調整 ===== */
 
 .categoryBtn img{
-width:32px;
-height:32px;
+
+width:34px;
+height:34px;
+
+border-radius:8px;
+
 object-fit:cover;
-border-radius:6px;
+
+aspect-ratio:1/1;
+
 }
 
+/* ===== 商品 ===== */
+
+.products{
+width:420px;
+}
+
+/* ===== 商品カード ===== */
+
 .card{
+
 display:flex;
 gap:12px;
-padding:12px;
-margin-bottom:12px;
+
+padding:14px;
+
+margin-bottom:10px;
+
 cursor:pointer;
-border-radius:10px;
-background:linear-gradient(#0b1218,#060b10);
-border:1px solid #ff880033;
+
+border-radius:12px;
+
+background:rgba(0,30,60,.5);
+
+border:1px solid #00eaff33;
+
+transition:transform .1s, box-shadow .2s;
+
+}
+
+.card:hover{
+
+transform:
+rotateX(6deg)
+rotateY(-6deg)
+translateY(-4px)
+scale(1.02);
+
+box-shadow:
+0 10px 40px #00eaff66;
+
 }
 
 .card img{
-width:90px;
-height:90px;
+
+width:85px;
+height:85px;
+
+border-radius:10px;
+
 object-fit:cover;
-border-radius:8px;
+
 }
 
-.title{
-font-size:16px;
-font-weight:700;
+/* ===== 詳細 ===== */
+
+.detail{
+flex:1;
+min-height:500px;
 }
 
-.desc{
-white-space:normal;
-line-height:1.7;
+.detail img{
+max-width:100%;
+margin-top:15px;
+border-radius:12px;
+border:1px solid #00eaff55;
 }
+
+.detail iframe{
+width:100%;
+height:350px;
+margin-top:15px;
+border-radius:12px;
+border:1px solid #00eaff55;
+}
+
+/* ===== モーダル ===== */
 
 .modal{
+
 position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:#000;
-padding:40px;
+
+inset:0;
+
+background:rgba(0,0,20,.95);
+
+padding:30px;
+
 display:none;
+
 overflow:auto;
+
 z-index:9999;
+
 }
 
 .modal iframe{
+
 width:100%;
 height:420px;
+
+border-radius:12px;
+
+border:1px solid #00eaff55;
+
 }
 
+/* ===== 閉じる ===== */
+
+.closeBtn{
+
+margin-bottom:20px;
+
+padding:12px 22px;
+
+border-radius:10px;
+
+border:1px solid #00eaff;
+
+background:transparent;
+
+color:#00eaff;
+
+cursor:pointer;
+
+}
+
+.closeBtn:hover{
+
+box-shadow:0 0 15px #00eaff;
+
+}
+
+/* ===== レーダー ===== */
+
+.radar{
+
+position:fixed;
+
+top:90px;
+left:20px;
+
+width:120px;
+height:120px;
+
+border-radius:50%;
+
+border:1px solid #00eaff55;
+
+box-shadow:0 0 20px #00eaff33;
+
+background:
+radial-gradient(circle,#00eaff22,transparent 70%);
+
+overflow:hidden;
+
+z-index:50;
+
+}
+
+.radar::before{
+
+content:"";
+
+position:absolute;
+
+width:100%;
+height:100%;
+
+background:
+linear-gradient(90deg,transparent,#00eaff55,transparent);
+
+animation:radarSpin 4s linear infinite;
+
+}
+
+@keyframes radarSpin{
+0%{transform:rotate(0deg);}
+100%{transform:rotate(360deg);}
+}
+
+/* ===== スクロールバー ===== */
+
+::-webkit-scrollbar{
+width:8px;
+}
+
+::-webkit-scrollbar-thumb{
+background:#00eaff;
+border-radius:10px;
+}
+
+/* ===== スマホ ===== */
+
 @media(max-width:700px){
-.container{flex-direction:column;margin-top:70px;}
-.categories,.products{width:100%;}
-.detail{display:none;}
-.modal iframe{height:250px;}
+
+.container{
+flex-direction:column;
+}
+
+.categories{
+width:100%;
+min-width:100%;
+overflow-x:auto;
+}
+
+#categoryList{
+
+display:flex;
+flex-wrap:nowrap;
+
+overflow-x:auto;
+
+gap:12px;
+
+padding-bottom:8px;
+
+scroll-behavior:smooth;
+
+}
+
+.categoryBtn{
+
+flex-direction:column;
+
+min-width:85px;
+
+padding:10px;
+
+text-align:center;
+
+}
+
+.categoryBtn img{
+
+width:60px;
+height:60px;
+
+}
+
+.categoryBtn span{
+
+font-size:12px;
+
+margin-top:4px;
+
+}
+
+.products{
+width:100%;
+}
+
+.detail{
+display:none;
+}
+
+.modal iframe{
+height:250px;
+}
+
+}
+
+/* ===== 追加機能（既存コード変更なし） ===== */
+
+/* カテゴリ選択ネオン */
+.categoryBtn.active{
+box-shadow:0 0 15px #00eaff,0 0 35px #00eaff55;
+background:rgba(0,90,140,.7);
+}
+
+/* 商品3カラム */
+@media(min-width:900px){
+
+#productList{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:12px;
+}
+
+.card{
+flex-direction:column;
+align-items:center;
+text-align:center;
+}
+
+.card img{
+width:100%;
+height:120px;
+}
+
+}
+
+/* 商品カード浮遊 */
+
+.card{
+transform-style:preserve-3d;
+}
+
+.card:hover{
+transform:translateY(-6px) scale(1.03);
+}
+
+/* 画像ロード安定 */
+
+.categoryBtn img[src=""]{
+display:none;
 }
