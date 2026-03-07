@@ -1,9 +1,23 @@
 <!doctype html>
 <html lang="ja">
 <head>
+
+<script>
+if(sessionStorage.getItem("admin_login") !== "ok"){
+const pass = prompt("管理者パスワード");
+
+if(pass === "mdmd9696"){
+sessionStorage.setItem("admin_login","ok");
+}else{
+alert("パスワードが違います");
+location.href="index.html";
+}
+}
+</script>
+
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>管理画面</title>
+<title>管理画面5</title>
 
 <style>
 body{margin:0;font-family:system-ui;background:#0b0f16;color:#fff;padding:20px;}
@@ -13,16 +27,16 @@ input,textarea,select{width:100%;margin:6px 0;padding:6px;}
 .item{background:#1f2937;padding:8px;border-radius:6px;margin:6px 0;}
 .categoryHeader{background:#374150;padding:10px;border-radius:6px;margin-top:8px;cursor:pointer;}
 </style>
+
 </head>
 
 <body>
 
-<h2>管理画面</h2>
+<h2>管理画面5</h2>
 
-<button onclick="login()">パスワード入力</button>
 <button onclick="logout()">ログアウト</button>
 
-<div id="mainPanel" style="display:none;">
+<div id="mainPanel">
 
 <div class="panel">
 <h3>商品追加</h3>
@@ -62,13 +76,9 @@ const firebaseConfig = {
   messagingSenderId: "338189734914",
   appId: "1:338189734914:web:01997c9526952de07e031b"
 };
-  
+
 const app=initializeApp(firebaseConfig);
 const db=getFirestore(app);
-
-const ADMIN_PASSWORD="1234";
-const LOGIN_KEY="admin_login_time";
-const LOGIN_DURATION=24*60*60*1000;
 
 let categories=[];
 let products=[];
@@ -76,9 +86,15 @@ let openCategories={};
 
 const productList=document.getElementById("productList");
 const productCategory=document.getElementById("productCategory");
-const mainPanel=document.getElementById("mainPanel");
 
-/* ===== 判定 ===== */
+/* ===== ログアウト ===== */
+
+window.logout=function(){
+sessionStorage.removeItem("admin_login");
+location.reload();
+}
+
+/* ===== 動画判定 ===== */
 
 function isVideo(url){
 if(!url) return false;
@@ -87,35 +103,19 @@ url.includes("vimeo")||
 url.match(/\.(mp4|webm|ogg)$/i);
 }
 
-/* ===== ログイン ===== */
-
-function checkAutoLogin(){
-const t=localStorage.getItem(LOGIN_KEY);
-if(t && Date.now()-t<LOGIN_DURATION)
-mainPanel.style.display="block";
-}
-
-window.login=function(){
-if(prompt("パスワード")==ADMIN_PASSWORD){
-localStorage.setItem(LOGIN_KEY,Date.now());
-mainPanel.style.display="block";
-}
-}
-
-window.logout=function(){
-localStorage.removeItem(LOGIN_KEY);
-location.reload();
-}
-
 /* ===== カテゴリ追加 ===== */
 
 window.addCategory=async function(){
 const name=catName.value.trim();
 const image=catImage.value.trim();
 if(!name)return;
+
 await addDoc(collection(db,"categories"),{
-name,image,order:Date.now(),updatedAt:Date.now()
+name,image,
+order:Date.now(),
+updatedAt:Date.now()
 });
+
 catName.value="";
 catImage.value="";
 }
@@ -195,6 +195,7 @@ await updateDoc(doc(db,"products",s[i+1].id),{order:s[i].order});
 window.editProduct=async function(p){
 const name=prompt("商品名",p.name);
 if(name===null)return;
+
 await updateDoc(doc(db,"products",p.id),{
 name,
 desc:prompt("説明",p.desc||""),
@@ -207,6 +208,7 @@ updatedAt:Date.now()
 window.editCategory=async function(cat){
 const name=prompt("カテゴリ名",cat.name);
 if(name===null)return;
+
 await updateDoc(doc(db,"categories",cat.id),{
 name,
 image:prompt("画像URL",cat.image||""),
@@ -236,6 +238,7 @@ categories.forEach(cat=>{
 
 const header=document.createElement("div");
 header.className="categoryHeader";
+
 header.innerHTML=`
 ${openCategories[cat.name]?"▼":"▶"} ${cat.name}
 <button onclick="moveCategoryUp('${cat.id}')">▲</button>
@@ -243,7 +246,9 @@ ${openCategories[cat.name]?"▼":"▶"} ${cat.name}
 <button onclick='editCategory(${JSON.stringify(cat)})'>編集</button>
 <button onclick="deleteCategory('${cat.id}')">削除</button>
 `;
+
 header.onclick=()=>toggleCategory(cat.name);
+
 productList.appendChild(header);
 
 if(!openCategories[cat.name])return;
@@ -251,8 +256,10 @@ if(!openCategories[cat.name])return;
 products
 .filter(p=>p.category===cat.name)
 .forEach(p=>{
+
 const div=document.createElement("div");
 div.className="item";
+
 div.innerHTML=`
 ${p.name}
 <button onclick="moveProductUp('${p.id}')">▲</button>
@@ -260,36 +267,49 @@ ${p.name}
 <button onclick='editProduct(${JSON.stringify(p)})'>編集</button>
 <button onclick="deleteProduct('${p.id}')">削除</button>
 `;
+
 productList.appendChild(div);
+
 });
+
 });
 }
 
 /* ===== Firebase ===== */
 
 onSnapshot(query(collection(db,"categories"),orderBy("order")),snap=>{
+
 categories=[];
 productCategory.innerHTML="";
+
 snap.forEach(d=>{
+
 const data={id:d.id,...d.data()};
 categories.push(data);
+
 const opt=document.createElement("option");
 opt.value=data.name;
 opt.textContent=data.name;
+
 productCategory.appendChild(opt);
+
 });
+
 renderProducts();
+
 });
 
 onSnapshot(query(collection(db,"products"),orderBy("order")),snap=>{
+
 products=[];
+
 snap.forEach(d=>{
 products.push({id:d.id,...d.data()});
 });
-renderProducts();
-});
 
-checkAutoLogin();
+renderProducts();
+
+});
 
 </script>
 
